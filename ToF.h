@@ -30,6 +30,6 @@ struct TimeOfFlightData {
 };
 
 void setupToF(void);
-TimeOfFlightData readToF(void);
+void readToF(TimeOfFlightData& data);
 
 #endif  // TOF_H

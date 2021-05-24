@@ -27,12 +27,8 @@ void setupToF() {
 }
 
 /**
- * @brief Returns current Time of Flight data in a Struct.
+ * @brief Returns Time of Flight data back in referenced struct.
  *
- * @return TimeOfFlightData Struct with three Time of Flight sensor data
+ * @param data Time of Flight struct reference for the data.
  */
-TimeOfFlightData readToF() {
-  TimeOfFlightData data;
-
-  return data;
-}
+void readToF(TimeOfFlightData& data) {}

@@ -18,15 +18,16 @@
 #include "ToF.h"
 #include "defines.h"
 #include "motor.h"
+#include "nine-dof.h"
 #include "safety.h"
 
-/**
- * @brief Setup Initial TWI (I²C) setup
- *
- */
-void setupWire(void) {
-    Wire.begin();
-}
+TimeOfFlightData tofData;
+DoFData dofData;
+MotorSettings motorData;
+
+int16_t motorForce1 = 0;  // Could also be float
+int16_t motorForce2 = 0;  // Could also be float
+int16_t motorForce3 = 0;  // Could also be float
 
 /**
  * @brief
@@ -37,9 +38,15 @@ void setup(void) {
   Serial.begin(112500);
 #endif  // DEBUG
   setupSafety();
-  setupWire();
+  Wire.begin();
   setupToF();
   setupMotor();
+  setupDoF();
+
+  readToF(tofData);  // Give ToF struct initial data.
+  readDoF(dofData);  // Give DoF struct initial data.
+  convertForceToPWM(motorData, 0, 0,
+                    0);  // Give motor driver struct initial data.
 }
 
 /**
@@ -47,6 +54,17 @@ void setup(void) {
  *
  */
 void loop(void) {
-    checkCellVoltage();
-    checkCurrent();
+  // Safety functions
+  checkCellVoltage();
+  checkCurrent();
+
+  // ToF functions
+  readToF(tofData);
+
+  // DoF functions
+  readDoF(dofData);
+
+  // Motor functions
+  convertForceToPWM(motorData, motorForce1, motorForce2, motorForce3);
+  setMotorSpeed(motorData);
 }
