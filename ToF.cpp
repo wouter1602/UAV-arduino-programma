@@ -10,6 +10,7 @@
  */
 
 #include "ToF.h"
+#include "defines.h"
 
 #include <Arduino.h>
 #include <Wire.h>
@@ -19,7 +20,9 @@
  * 
  */
  void setupToF() {
-
+     #ifdef DEBUG
+    Serial.println("ToF setup complete");
+    #endif
  }
 
 /**
@@ -28,5 +31,7 @@
  * @return TimeOfFlightData Struct with three Time of Flight sensor data
  */
  TimeOfFlightData readToF() {
+     TimeOfFlightData data;
 
+     return data;
  }

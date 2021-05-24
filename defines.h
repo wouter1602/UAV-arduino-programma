@@ -16,4 +16,15 @@
 
 // Pin defines
 
+//Motor pins
+#define MOTOR_PWM1 1            //Needs correct pin
+#define MOTOR_PWM2 2            //Needs correct pin
+#define MOTOR_PWM3 3            //Needs correct pin
+#define MOTOR_ENABLE_LEFT1 4    //Needs correct pin
+#define MOTOR_ENABLE_RIGHT1 5   //Needs correct pin
+#define MOTOR_ENABLE_LEFT2 6    //Needs correct pin
+#define MOTOR_ENABLE_RIGHT2 7   //Needs correct pin
+#define MOTOR_ENABLE_LEFT3 8    //Needs correct pin
+#define MOTOR_ENABLE_RIGHT3 9   //Needs correct pin
+
 #endif //DEFINES_H
