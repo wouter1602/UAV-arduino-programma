@@ -4,9 +4,9 @@
  * @brief Header file to setup and read the Time of Flight sensors
  * @version 0.1
  * @date 2021-05-24
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 
 /*
@@ -21,16 +21,15 @@
 
 /**
  * @brief Struct with three sensor data ints.
- * 
+ *
  */
 struct TimeOfFlightData {
-    uint16_t sensor1;
-    uint16_t sensor2;
-    uint16_t sensor3;
+  uint16_t sensor1;
+  uint16_t sensor2;
+  uint16_t sensor3;
 };
-
 
 void setupToF(void);
 TimeOfFlightData readToF(void);
 
-#endif //TOF_H
+#endif  // TOF_H
