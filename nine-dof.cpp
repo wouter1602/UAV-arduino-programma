@@ -19,14 +19,14 @@
 /**
  * @brief Reads all the gyro data from the 9-axis DoF sensor
  *
- * @return GyroData struct with gyro data
+ * @param GyroData struct with gyro data
  */
 void readGyro(GyroData& data) {}
 
 /**
  * @brief Reads all the accelerometer data from the 9-axis DoF sensor
  *
- * @return AccelerometerData struct with accelerometer data
+ * @param AccelerometerData struct with accelerometer data
  */
 void readAccelerometer(AccelerometerData& data) {}
 

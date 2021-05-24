@@ -25,9 +25,15 @@ struct MotorSettings {
   int16_t motorPWMSpeed3;
 };
 
+struct MotorForce {
+  float motor1Force = 0.0;
+  float motor2Force = 0.0;
+  float motor3Force = 0.0;
+};
+
 void setupMotor(void);
-void convertForceToPWM(MotorSettings& data, int16_t motor1, int16_t motor2,
-                                int16_t motor3);  // Could als be floats.
+void convertForceToPWM(MotorSettings& data,
+                       MotorForce& motorForce);  // Could als be floats.
 void setMotorSpeed(MotorSettings& motordata);
 
 #endif  // MOTOR_H

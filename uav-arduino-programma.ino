@@ -21,13 +21,21 @@
 #include "nine-dof.h"
 #include "safety.h"
 
+// Controllers
+#include "angle_controller.h"
+
+// Sensor and motor variables
 TimeOfFlightData tofData;
 DoFData dofData;
 MotorSettings motorData;
+MotorForce motorForceData;
 
-int16_t motorForce1 = 0;  // Could also be float
-int16_t motorForce2 = 0;  // Could also be float
-int16_t motorForce3 = 0;  // Could also be float
+// Global controller data
+unsigned long tNew = 0;
+unsigned long tOld = 0;
+
+// Select controller
+uint8_t controllerChoice = 0;
 
 /**
  * @brief
@@ -45,8 +53,10 @@ void setup(void) {
 
   readToF(tofData);  // Give ToF struct initial data.
   readDoF(dofData);  // Give DoF struct initial data.
-  convertForceToPWM(motorData, 0, 0,
-                    0);  // Give motor driver struct initial data.
+  convertForceToPWM(motorData,
+                    motorForceData);  // Give motor driver struct initial data.
+
+  tOld = millis();  // Provide inital data
 }
 
 /**
@@ -64,7 +74,23 @@ void loop(void) {
   // DoF functions
   readDoF(dofData);
 
+  // Controllers
+  tNew = millis();
+  if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely sind it
+                                // hapens after approx 50 days.
+    switch (controllerChoice) {
+      case NOTING_CONTROLLER:
+        asm("nop");  // do noting
+        break;
+      case ANGLE_CONTROLLER:
+        angle_controller(motorData, motorForceData, tofData, dofData);
+      default:
+        asm("nop");
+        break;
+    }
+  }
+
   // Motor functions
-  convertForceToPWM(motorData, motorForce1, motorForce2, motorForce3);
+  convertForceToPWM(motorData, motorForceData);
   setMotorSpeed(motorData);
 }

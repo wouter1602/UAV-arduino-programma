@@ -17,6 +17,20 @@
 #define DEBUG  // If debug is defined the program wil debug through the serial
                // port.
 
+// Physical attributes Hovercraft
+#define HOVER_MASS 0.500       // in kg
+#define MAX_FORCE_MOTOR1 5.0   // in N
+#define MIN_FORCE_MOTOR1 -6.0  // in N
+#define MAX_FORCE_MOTOR2 5.0   // in N
+#define MIN_FORCE_MOTOR2 -6.0  // in N
+#define MAX_FORCE_MOTOR3 5.0   // in N
+#define MIN_FORCE_MOTOR3 -6.0  // in N
+#define DELTA_t 10             // in ms
+
+// Controllers abbreviations
+#define NOTING_CONTROLLER 0
+#define ANGLE_CONTROLLER 1
+
 // Pin defines
 
 // ToF pins

@@ -24,15 +24,12 @@ void setupMotor() {
 }
 
 /**
- * @brief Converts te force to PWM values
+ * @brief Converts te force in Newton to PWM values
  *
  * @param data Reference struct to MotorSettings struct
- * @param motor1
- * @param motor2
- * @param motor3
+ * @param motorForce Struct with the force in per motor in Newton
  */
-void convertForceToPWM(MotorSettings& data, int16_t motor1, int16_t motor2,
-                                int16_t motor3) {
+void convertForceToPWM(MotorSettings& data, MotorForce& motorForce) {
 
 }
 
