@@ -14,8 +14,8 @@
 #include "defines.h"
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @param motorData Struct with PWM values for the motor
  * @param motorForce Struct with motor force
  * @param TimeOfFlightData Struct with ToF distance data

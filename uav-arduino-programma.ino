@@ -23,8 +23,9 @@
 
 // Controllers
 #include "angle_controller.h"
-#include "wall_controller.h"
+#include "aruco_markers_controller.h"
 #include "circular_track_controller.h"
+#include "wall_controller.h"
 
 // Sensor and motor variables
 TimeOfFlightData tofData;
@@ -91,7 +92,10 @@ void loop(void) {
         wallController(motorData, motorForceData, tofData, dofData);
         break;
       case CIRCULAR_TRACK_CONTROLLER:
-      circularTrackController(motorData, motorForceData, tofData, dofData);
+        circularTrackController(motorData, motorForceData, tofData, dofData);
+        break;
+      case ARUCO_MARKERS_CONTROLLER:
+        arucoMarkersController(motorData, motorForceData, tofData, dofData);
         break;
       default:
         asm("nop");
