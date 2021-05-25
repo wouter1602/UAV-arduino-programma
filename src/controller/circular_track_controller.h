@@ -12,9 +12,9 @@
 #ifndef CIRCULAR_TRACK_CONTROLLER_H
 #define CIRCULAR_TRACK_CONTROLLER_H
 
-#include "ToF.h"
-#include "motor.h"
-#include "nine-dof.h"
+#include "../sensors/ToF.h"
+#include "../sensors/motor.h"
+#include "../sensors/nine-dof.h"
 
 void circularTrackController(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& timeOfFlightData,

@@ -11,7 +11,7 @@
 
 #include "safety.h"
 
-#include "defines.h"
+#include "../../defines.h"
 
 #define TURN_OFF_RELAY          \
   digitalWrite(RELAY_RPI, LOW); \

@@ -11,7 +11,7 @@
 
 #include "motor.h"
 
-#include "defines.h"
+#include "../../defines.h"
 
 /**
  * @brief Enables PWM for the motor drivers

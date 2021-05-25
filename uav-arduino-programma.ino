@@ -15,23 +15,24 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "ToF.h"
+#include "src/sensors/ToF.h"
 #include "defines.h"
-#include "motor.h"
-#include "nine-dof.h"
-#include "safety.h"
+#include "src/sensors/motor.h"
+#include "src/sensors/nine-dof.h"
+#include "src/sensors/safety.h"
 
 // Controllers
-#include "angle_controller.h"
-#include "aruco_markers_controller.h"
-#include "circular_track_controller.h"
-#include "wall_controller.h"
+#include "src/controller/angle_controller.h"
+#include "src/controller/aruco_markers_controller.h"
+#include "src/controller/circular_track_controller.h"
+#include "src/controller/wall_controller.h"
 
 // Sensor and motor variables
 TimeOfFlightData tofData;
 DoFData dofData;
 MotorSettings motorData;
 MotorForce motorForceData;
+RpiData rpiData;
 
 // Global controller data
 unsigned long tNew = 0;
@@ -95,7 +96,7 @@ void loop(void) {
         circularTrackController(motorData, motorForceData, tofData, dofData);
         break;
       case ARUCO_MARKERS_CONTROLLER:
-        arucoMarkersController(motorData, motorForceData, tofData, dofData);
+        arucoMarkersController(motorData, motorForceData, tofData, dofData, rpiData);
         break;
       default:
         asm("nop");

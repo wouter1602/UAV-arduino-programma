@@ -11,7 +11,7 @@
 
 #include "aruco_markers_controller.h"
 
-#include "defines.h"
+#include "../../defines.h"
 
 /**
  * @brief
@@ -20,8 +20,9 @@
  * @param motorForce Struct with motor force
  * @param TimeOfFlightData Struct with ToF distance data
  * @param degreesOfFreedomData Struct with 9-axes DoF data
+ * @param rpiData 
  */
 void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
                             TimeOfFlightData& timeOfFlightData,
-                            DoFData& degreesOfFreedomData) {}
+                            DoFData& degreesOfFreedomData, RpiData& rpiData) {}
 

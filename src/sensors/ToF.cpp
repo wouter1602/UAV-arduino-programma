@@ -14,7 +14,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "defines.h"
+#include "../../defines.h"
 
 /**
  * @brief Initialize the Time of Flight sensors.

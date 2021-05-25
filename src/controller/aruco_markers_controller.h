@@ -12,12 +12,13 @@
 #ifndef ARRUCO_MARKERS_CONTROLLER_H
 #define ARRUCO_MARKERS_CONTROLLER_H
 
-#include "ToF.h"
-#include "nine-dof.h"
-#include "motor.h"
+#include "../sensors/ToF.h"
+#include "../sensors/motor.h"
+#include "../sensors/nine-dof.h"
+#include "../sensors/rpi.h"
 
 void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& timeOfFlightData,
-                      DoFData& degreesOfFreedomData);
+                      DoFData& degreesOfFreedomData, RpiData& rpiData);
 
 #endif  // ARRUCO_MARKERS_CONTROLLER_H

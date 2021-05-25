@@ -12,9 +12,9 @@
 #ifndef ANGLE_CONTROLLER_H
 #define ANGLE_CONTROLLER_H
 
-#include "ToF.h"
-#include "motor.h"
-#include "nine-dof.h"
+#include "../sensors/ToF.h"
+#include "../sensors/motor.h"
+#include "../sensors/nine-dof.h"
 
 void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& timeOfFlightData,

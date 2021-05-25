@@ -14,7 +14,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "defines.h"
+#include "../../defines.h"
 
 /**
  * @brief Reads all the gyro data from the 9-axis DoF sensor

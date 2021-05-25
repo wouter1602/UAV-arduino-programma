@@ -9,9 +9,12 @@
  *
  */
 
+#include <Arduino.h>
+#include <Wire.h>
+
 #include "rpi.h"
 
-#include "defines.h"
+#include "../../defines.h"
 
 /**
  * @brief
