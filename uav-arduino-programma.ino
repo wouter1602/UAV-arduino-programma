@@ -23,6 +23,7 @@
 
 // Controllers
 #include "angle_controller.h"
+#include "wall_controller.h"
 
 // Sensor and motor variables
 TimeOfFlightData tofData;
@@ -35,7 +36,7 @@ unsigned long tNew = 0;
 unsigned long tOld = 0;
 
 // Select controller
-uint8_t controllerChoice = 0;
+uint8_t controllerChoice = NOTHING_CONTROLLER;
 
 /**
  * @brief
@@ -79,11 +80,14 @@ void loop(void) {
   if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely sind it
                                 // hapens after approx 50 days.
     switch (controllerChoice) {
-      case NOTING_CONTROLLER:
+      case NOTHING_CONTROLLER:
         asm("nop");  // do noting
         break;
       case ANGLE_CONTROLLER:
         angle_controller(motorData, motorForceData, tofData, dofData);
+        break;
+        case WALL_CONTROLLER:
+        wallController(motorData, motorForceData, tofData, dofData);
       default:
         asm("nop");
         break;

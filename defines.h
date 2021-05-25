@@ -30,6 +30,7 @@
 // Controllers abbreviations
 #define NOTING_CONTROLLER 0
 #define ANGLE_CONTROLLER 1
+#define WALL_CONTROLLER 2
 
 // Pin defines
 
