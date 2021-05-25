@@ -1,7 +1,7 @@
 /**
- * @file wall_controller.cpp
+ * @file circular_track_controller.cpp
  * @author Kaj Zwinkels (17014026@student.hhs.nl)
- * @brief Solves problem 16 of the projectbook.
+ * @brief Solves problem 17 of the projectbook.
  * @version 0.1
  * @date 2021-05-25
  *
@@ -9,7 +9,7 @@
  *
  */
 
-#include "wall_controller.h"
+#include "circular_track_controller.h"
 
 #include "defines.h"
 
@@ -21,6 +21,6 @@
  * @param TimeOfFlightData Struct with ToF distance data
  * @param degreesOfFreedomData Struct with 9-axes DoF data 
  */
-void wallController(MotorSettings& motorData, MotorForce& motorForce,
-                    TimeOfFlightData& timeOffFlightData,
-                    DoFData& degreesOfFreedomData) {}
+void circularTrackController(MotorSettings& motorData, MotorForce& motorForce,
+                             TimeOfFlightData& timeOfFlightData,
+                             DoFData& degreesOfFreedomData) {}

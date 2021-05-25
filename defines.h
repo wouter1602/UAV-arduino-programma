@@ -28,9 +28,10 @@
 #define DELTA_t 10             // in ms
 
 // Controllers abbreviations
-#define NOTING_CONTROLLER 0
+#define NOTHING_CONTROLLER 0
 #define ANGLE_CONTROLLER 1
 #define WALL_CONTROLLER 2
+#define CIRCULAR_TRACK_CONTROLLER 3
 
 // Pin defines
 
