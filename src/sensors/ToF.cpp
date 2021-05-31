@@ -22,7 +22,7 @@
  * @brief Struct with the three ToF sensors
  *
  */
-struct ToFSensros {
+struct ToFSensors {
   Adafruit_VL53L0X ToF1 = Adafruit_VL53L0X();
   Adafruit_VL53L0X ToF2 = Adafruit_VL53L0X();
   Adafruit_VL53L0X ToF3 = Adafruit_VL53L0X();
