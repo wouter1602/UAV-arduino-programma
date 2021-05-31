@@ -49,11 +49,12 @@ void setup(void) {
 #ifdef DEBUG
   Serial.begin(112500);
 #endif  // DEBUG
-  setupSafety();
+  // setupSafety();
   Wire.begin();
   setupToF();
   setupMotor();
   setupDoF();
+  setupRpi();
 
   readToF(tofData);  // Give ToF struct initial data.
   readDoF(dofData);  // Give DoF struct initial data.
@@ -69,8 +70,8 @@ void setup(void) {
  */
 void loop(void) {
   // Safety functions
-  checkCellVoltage();
-  checkCurrent();
+  // checkCellVoltage();
+  // checkCurrent();
 
   // ToF functions
   readToF(tofData);

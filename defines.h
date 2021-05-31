@@ -34,6 +34,9 @@
 #define CIRCULAR_TRACK_CONTROLLER 3
 #define ARUCO_MARKERS_CONTROLLER 4
 
+// Raspberry Pi TWI / I²C address
+#define RPI_ADDRESS 0x09
+
 // Pin defines
 
 // ToF pins

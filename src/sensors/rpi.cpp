@@ -21,6 +21,18 @@
  *
  */
 void setupRpi() {
+  Wire.beginTransmission(RPI_ADDRESS);
+  Wire.write("datum");
+  Wire.endTransmission();
+  delay(15);
+
+  Wire.requestFrom(RPI_ADDRESS, 11);
+  while (Wire.available()) {
+    char c = Wire.read();
+    Serial.print("[INFO] Received: ");
+    Serial.println(c);
+  }
+  
 #ifdef DEBUG
   Serial.println("[INFO] Completed Raspberry Pi setup.");
 #endif  // DEBUG
