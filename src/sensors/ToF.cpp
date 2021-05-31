@@ -10,6 +10,7 @@
  */
 
 #include "ToF.h"
+#include "../lib/VL53L0x/Adafruit_VL53L0X.h"
 
 #include <Arduino.h>
 #include <Wire.h>
