@@ -15,6 +15,46 @@
 #include <Wire.h>
 
 #include "../../defines.h"
+#include "i2c.h"
+
+#pragma pack(push, 1)
+struct WireData {
+  uint8_t datatype = 'D';
+  TimeOfFlightData tof;
+  ADC_Data adc;
+  MotorSettings motorPWM;
+  MotorForce motorForce;
+  DoFData dof;
+};
+#pragma pack(pop)
+
+void writeWiredata(WireData* wireData) {
+  uint8_t* bytes = (uint8_t*)wireData;
+  Wire.write(bytes, sizeof(WireData));
+}
+
+#ifdef USE_RPI_TEST_DATA
+void setRpiTestData(MotorSettings& motorData, MotorForce& motorForce,
+                    TimeOfFlightData& timeOfFlightData,
+                    DoFData& degreesOfFreedomData, ADC_Data& adcData) {
+  motorData.motorPWMSpeed1 = MOTOR_FAKE_PWM1;
+  motorData.motorPWMSpeed2 = MOTOR_FAKE_PWM2;
+  motorData.motorPWMSpeed3 = MOTOR_FAKE_PWM3;
+
+  motorForce.motor1Force = MOTOR_FAKE_FORCE1;
+  motorForce.motor2Force = MOTOR_FAKE_FORCE2;
+  motorForce.motor3Force = MOTOR_FAKE_FORCE3;
+
+  timeOfFlightData.sensor1 = TOF_FAKE_DATA1;
+  timeOfFlightData.sensor2 = TOF_FAKE_DATA2;
+  timeOfFlightData.sensor3 = TOF_FAKE_DATA3;
+
+  adcData.cell_1 = ADC_FAKE_CELL1;
+  adcData.cell_2 = ADC_FAKE_CELL2;
+  adcData.cell_3 = ADC_FAKE_CELL3;
+  adcData.current = CURRENT_FAKE;
+}
+#endif  // USE_RPI_TEST_DATA
 
 /**
  * @brief
@@ -51,65 +91,22 @@ void sendRpiData(MotorSettings& motorData, MotorForce& motorForce,
                  DoFData& degreesOfFreedomData, ADC_Data& adcData) {
   Wire.beginTransmission(RPI_ADDRESS);
 #ifdef USE_RPI_TEST_DATA
-  Wire.write("D");
-  Wire.write(TOF_FAKE_DATA1);
-  RPI_DATA_TAB
-  Wire.write(TOF_FAKE_DATA2);
-  RPI_DATA_TAB
-  Wire.write(TOF_FAKE_DATA3);
-  RPI_DATA_TAB
-  Wire.write(ADC_FAKE_CELL1);
-  RPI_DATA_TAB
-  Wire.write(ADC_FAKE_CELL2);
-  RPI_DATA_TAB
-  Wire.write(ADC_FAKE_CELL2);
-  RPI_DATA_TAB
-  Wire.write(CURRENT_FAKE);
-  RPI_DATA_TAB
-  Wire.write(MOTOR_FAKE_PWM1);
-  RPI_DATA_TAB
-  Wire.write(MOTOR_FAKE_PWM2);
-  RPI_DATA_TAB
-  Wire.write(MOTOR_FAKE_PWM3);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)MOTOR_FAKE_FORCE1);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)MOTOR_FAKE_FORCE2);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)MOTOR_FAKE_FORCE3);
-#else
-  Wire.write("D");
-  Wire.write(TimeOfFlightData.sensor1);
-  RPI_DATA_TAB
-  Wire.write(TimeOfFlightData.sensor2);
-  RPI_DATA_TAB
-  Wire.write(TimeOfFlightData.sensor3);
-  RPI_DATA_TAB
-  Wire.write(adcData.cell_1);
-  RPI_DATA_TAB
-  Wire.write(adcData.cell_2);
-  RPI_DATA_TAB
-  Wire.write(adcData.cell_3);
-  RPI_DATA_TAB
-  Wire.write(adcData.current);
-  RPI_DATA_TAB
-  Wire.write(motorData.motorPWMSpeed1);
-  RPI_DATA_TAB
-  Wire.write(motorData.motorPWMSpeed2);
-  RPI_DATA_TAB
-  Wire.write(motorData.motorPWMSpeed3);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)motorForce.motor1Force);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)motorForce.motor2Force);
-  RPI_DATA_TAB
-  Wire.write((uint32_t)motorForce.motor3Force);
-
+  setRpiTestData(motorData, motorForce, TimeOfFlightData, degreesOfFreedomData,
+                 adcData);
 #endif  // USE_RPI_TEST_DATA
+
+  WireData wireData;
+  wireData.tof = TimeOfFlightData;
+  wireData.adc = adcData;
+  wireData.motorPWM = motorData;
+  wireData.motorForce = motorForce;
+  wireData.dof = degreesOfFreedomData;
+  writeWiredata(&wireData);
+
   Wire.endTransmission();
-  #ifdef DEBUG
+#ifdef DEBUG
   Serial.println("[INFO] Send sensor data to the Raspberry Pi.");
-  #endif // DEBUG
+#endif  // DEBUG
 }
 
 /**
