@@ -15,14 +15,17 @@
 #include "ToF.h"
 #include "motor.h"
 #include "nine-dof.h"
+#include "safety.h"
 
 struct RpiData {};
 
 void setupRpi(void);
 
-void sendRpiData(MotorSettings& motorData, MotorForce& motorForce,
+void sendRpiData(MotorSettings& motorData, 
+                 MotorForce& motorForce,
                  TimeOfFlightData& TimeOfFlightData,
-                 DoFData& degreesOfFreedomData);
+                 DoFData& degreesOfFreedomData,
+                 ADC_Data& adcData);
 void receiveRpiData(RpiData& data);
 
 #endif  // RPI_H
