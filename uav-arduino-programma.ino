@@ -69,8 +69,8 @@ void setup(void) {
  */
 void loop(void) {
   // Safety functions
-  checkCellVoltage();
-  checkCurrent();
+  // checkCellVoltage();
+  // checkCurrent();
 
   // ToF functions
   readToF(tofData);

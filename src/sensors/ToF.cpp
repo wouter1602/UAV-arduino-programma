@@ -56,9 +56,9 @@ inline void setID() {
   // TODO: check if delay can be lower.
 
   // All ToF sensros disabled accept ToF 1
-  digitalWrite(TOF_XSHUT1, LOW);
-  digitalWrite(TOF_XSHUT2, HIGH);
-  digitalWrite(TOF_XSHUT3, HIGH);
+  digitalWrite(TOF_XSHUT1, HIGH);
+  digitalWrite(TOF_XSHUT2, LOW);
+  digitalWrite(TOF_XSHUT3, LOW);
 
   delay(10);  // Wait for the sensor to bootup
   // TODO: check if delay can be lower.
@@ -69,7 +69,7 @@ inline void setID() {
 #endif  // DEBUG
   }
 
-  digitalWrite(TOF_XSHUT2, LOW);  // Enable ToF 2
+  digitalWrite(TOF_XSHUT2, HIGH);  // Enable ToF 2
 
   delay(10);  // Wait for the second sensor to bootup
   // TODO: check if delay can be lower.
@@ -80,7 +80,7 @@ inline void setID() {
 #endif  // DEBUG
   }
 
-  digitalWrite(TOF_XSHUT3, LOW);  // Enable ToF 3
+  digitalWrite(TOF_XSHUT3, HIGH);  // Enable ToF 3
 
   delay(10);  // Wait for sensor to bootup
   // TODO: check if delay can be lower.

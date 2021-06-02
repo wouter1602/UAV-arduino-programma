@@ -42,8 +42,8 @@
 #define TOF_XSHUT3 33
 
 #define TOF_ADDRESS1 0x30
-#define TOF_ADDRESS2 0x31
-#define TOF_ADDRESS3 0x32
+#define TOF_ADDRESS2 0x32
+#define TOF_ADDRESS3 0x34
 
 #define TOF_MEASUREMENT_TIMEOUT 4  // in ms
 
