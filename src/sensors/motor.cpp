@@ -21,7 +21,7 @@ void setupMotor() {
 #ifdef DEBUG
   Serial.println("[INFO] Completed motor setup.");
 #endif  // DEBUG
-}(
+}
   
   
   
