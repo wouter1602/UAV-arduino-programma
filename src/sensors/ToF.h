@@ -1,6 +1,6 @@
 /**
  * @file ToF.h
- * @author Robert van der Vlist (18143040@student.hhs.nl)
+ * @author Shivany Anders (19044240@student.hhs.nl)
  * @brief Header file to setup and read the Time of Flight sensors
  * @version 0.1
  * @date 2021-05-24
@@ -24,9 +24,9 @@
  *
  */
 struct TimeOfFlightData {
-  uint16_t sensor1;
-  uint16_t sensor2;
-  uint16_t sensor3;
+  uint16_t sensor_front;
+  uint16_t sensor_side1;
+  uint16_t sensor_side2;
 };
 
 void setupToF(void);
