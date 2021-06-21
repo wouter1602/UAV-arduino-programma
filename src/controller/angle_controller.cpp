@@ -23,4 +23,31 @@
  */
 void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& TimeOfFlightData,
-                      DoFData& degreesOfFreedomData) {}
+                      DoFData& degreesOfFreedomData) {
+
+  t_nw = millis();
+  if (t_nw - t_oud > cyclustijd) {
+  dt = (t_nw - t_oud) * .001;
+  t_oud = t_nw;
+
+  regelaar_verstoring();
+  gyro_data();
+
+  alpha = (F_gyro * b + Mz)/ Icg;      
+  omega = omega + alpha * dt; 
+  theta = theta + omega * dt; 
+
+
+  error_gyro = sp - theta;
+  d_error_gyro = error_gyro - error_gyro_oud;
+  error_gyro_som = error_gyro_som + error_gyro*dt;
+  float F_gyro = Kp_gyro * error_gyro + Kd_gyro * d_error_gyro/dt
+  + Ki_gyro * error_gyro_som *dt;
+  F_gyro = constrain((F_gyro/2), (Fmin/2), (Fmax/2));
+  error_gyro_oud = error_gyro;
+  Kracht_naar_PWM(constrain(F_motor - F_gyro, Fmin, Fmax),
+  constrain(F_motor + F_gyro, Fmin, Fmax)); 
+  }
+}
+
+}
