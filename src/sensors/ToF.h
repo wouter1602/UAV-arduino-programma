@@ -24,9 +24,9 @@
  *
  */
 struct TimeOfFlightData {
-  uint16_t sensor_front;
-  uint16_t sensor_side1;
-  uint16_t sensor_side2;
+  uint16_t sensor1;
+  uint16_t sensor2;
+  uint16_t sensor3;
 };
 
 void setupToF(void);
