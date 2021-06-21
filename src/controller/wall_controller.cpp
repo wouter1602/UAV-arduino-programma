@@ -27,7 +27,7 @@ void wallController(MotorSettings& motorData, MotorForce& motorForce,
 
 void WALL_CONTROLLER() {
 
- float x = DistanceFront()/1000; //Gemeten mm omzetten naar m. 
+ float x = readToF()/1000; //Gemeten mm omzetten naar m. 
 
  error_d_front = sp_d_front - x;
  d_error_d_front = error_d_front - error_old_d_front; 
