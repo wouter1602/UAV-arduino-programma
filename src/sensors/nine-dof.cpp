@@ -73,7 +73,14 @@ void setupDoF() {
  * @param DoFData Reference Struct with Gyro, Accelerometer and compass data.
  */
 void readDoF(DoFData& data) {
-  readGyro(data.gyroData);
-  readAccelerometer(data.accelerometerData);
-  readCompass(data.compassData);
+    readGyro(data.gyroData);
+    readAccelerometer(data.accelerometerData);
+    readCompass(data.compassData);
+  
+    float omega = imu.calcGyro(imu.gz);  //Uitlezen van de gyroscoop om de Z-as
+    avg_omega = (avg_omega + omega)/2;   //Neem het gemiddelde van 2 metingen om grote
+                                         //afwijkingen te voorkomen
+    theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
+    Serial.println(theta);               //print theta
+
 }
