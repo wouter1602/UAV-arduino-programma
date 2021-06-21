@@ -39,13 +39,17 @@ float a;                    // m/s2
 float v = 0.0, x = 0.5;     // Beginwaarden
  
 float error;
-float error_oud;
+float error_old;
 float d_err;
+float error_d_front;
+float d_error_d_front;
+float Kp_d_front; 
+float Kd_d_front;
 const float sp = 0.3; //setpoint in meters
 const float Kp = 2.0; //propsineel hier mee iets doen uitzoeken wat het doet.
 const float Kd = 2.0; // diffrentiel hier mee iets doen uitzoeken wat het doet. 
  
-long t_oud, t_nw;
+long t_old, t_nw;
 float dt;
  
 void wallController(MotorSettings& motorData, MotorForce& motorForce,
