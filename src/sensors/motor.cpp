@@ -33,35 +33,31 @@ void setupMotor() {
  * @param motorForce Struct with the force in per motor in Newton
  */
 void convertForceToPWM(MotorSettings& data, MotorForce& motorForce) {
-    Newton_links = ;
-  Newton_rechts = ;
-  Newton_zijkant = ;
-
   //Aansturing motor links
-  if(Newton_links > 0){
-    PWM_Motor_links = (2289.3*Newton_links) - 38.70;
-  }if(Newton_links < 0){
-    PWM_Motor_links = (1892.2*Newton_links) - 43.784;
+  if(motor1Force  > 0){
+    motorPWMSpeed1 = (2289.3*motor1Force ) - 38.70;
+  }if(motor1Force  < 0){
+    motorPWMSpeed1 = (1892.2*motor1Force ) - 43.784;
   }else{
-    PWM_Motor_rechts = 0;
+    motorPWMSpeed1 = 0;
   }
 
   //Aansturing motor rechts
-  if(Newton_rechts > 0){
-    PWM_Motor_rechts = (2265.9*Newton_rechts) - 53.011;
-  }if(Newton_rechts < 0){
-    PWM_Motor_rechts = (2041.3*Newton_rechts) - 34.483;
+  if(motor2Force > 0){
+    motorPWMSpeed2 = (2265.9*motor2Force) - 53.011;
+  }if(motor2Force < 0){
+    motorPWMSpeed2 = (2041.3*motor2Force) - 34.483;
   }else{
-    PWM_Motor_rechts = 0;
+    motorPWMSpeed2 = 0;
   }
 
   //Aansturing motor zijkant
-  if(Newton_zijkant > 0){
-    PWM_Motor_zijkant = (2320.9*Newton_zijkant) - 43.143;
-  }if(Newton_zijkant < 0){
-    PWM_Motor_zijkant = (1990.5*Newton_zijkant) - 23.693;
+  if(motor3Force > 0){
+    motorPWMSpeed3 = (2320.9*motor3Force) - 43.143;
+  }if(motor3Force < 0){
+    motorPWMSpeed3 = (1990.5*motor3Force) - 23.693;
   }else{
-    PWM_Motor_zijkant = 0;
+    motorPWMSpeed3 = 0;
   }
 }
 
@@ -71,9 +67,9 @@ void convertForceToPWM(MotorSettings& data, MotorForce& motorForce) {
  * @param motorData
  */
 void setMotorSpeed(MotorSettings& motorData){
-  MOTOR_PWM1 = analogWrite(PWM_motor_rechts);
-  MOTOR_PWM2 = analogWrite(PWM_motor_links);
-  MOTOR_PWM3 = analogWrite(PWM_motor_zijkant);
+  MOTOR_PWM1 = analogWrite(motorPWMSpeed1);
+  MOTOR_PWM2 = analogWrite(motorPWMSpeed2);
+  MOTOR_PWM3 = analogWrite(motorPWMSpeed3);
 }
   
 
