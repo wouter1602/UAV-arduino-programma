@@ -17,6 +17,8 @@
 #ifndef NINE_DOF_H
 #define NINE_DOF_H
 
+float alpha = 0.0;                    // m/s2  HOEKVERSNELLING
+float omega = 0.0, theta = 0.0; // Beginwaarden OMEGA, hoeksnelheid, en hoek in rad met random getal
 /**
  * @brief Struct with the gyro data.
  * 
