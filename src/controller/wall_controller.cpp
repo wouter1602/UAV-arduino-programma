@@ -42,9 +42,9 @@ void WALL_CONTROLLER() {
  }
 }
 
-if (WALL_CONTROLLER){
+if (x < 300){
   setMotorSpeed(motorForceData, motorForceData, 0);
-} else if (sensor1_front){
+} else if (x > 300){
   sensor1_front(motorForceData);
   
 }
