@@ -39,12 +39,8 @@ void WALL_CONTROLLER() {
  float motorForceData = F/2;  //Delen door 2 want twee stuwmotoren
  if((abs(x-sp_d_front) <hysterese)){
   motorForceData = 0; 
+   
+  setMotorSpeed();
  }
 }
 
-if (x < 300){
-  setMotorSpeed(motorForceData, motorForceData, 0);
-} else if (x > 300){
-  sensor1_front(motorForceData);
-  
-}
