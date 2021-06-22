@@ -23,6 +23,7 @@ MPU9250_DMP imu;
 float alpha = 0.0;                    // m/s2  HOEKVERSNELLING
 float omega = 0.0, theta = 0.0; // Beginwaarden OMEGA, hoeksnelheid, en hoek in rad met random getal
 float avg_omega = 0.0;
+int meting = 0;
 
 /**
  * @brief Reads all the gyro data from the 9-axis DoF sensor
