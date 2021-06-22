@@ -66,4 +66,8 @@
 #define RELAY_RPI 22
 #define RELAY_BLOWERS 23
 
+//DOF
+#define CALIBRATION_LED 8
+
+
 #endif  // DEFINES_H
