@@ -1,6 +1,6 @@
 /**
  * @file ToF.h
- * @author Robert van der Vlist (18143040@student.hhs.nl)
+ * @author Shivany Anders (19044240@student.hhs.nl)
  * @brief Header file to setup and read the Time of Flight sensors
  * @version 0.1
  * @date 2021-05-24

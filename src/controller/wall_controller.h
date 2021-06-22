@@ -15,7 +15,7 @@
 #include "../sensors/ToF.h"
 #include "../sensors/motor.h"
 #include "../sensors/nine-dof.h"
-
+ 
 void wallController(MotorSettings& motorData, MotorForce& motorForce,
                     TimeOfFlightData& timeOfFlightData,
                     DoFData& degreesOfFreedomData);

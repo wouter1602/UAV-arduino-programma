@@ -18,7 +18,7 @@
                // port.
 
 // Physical attributes Hovercraft
-#define HOVER_MASS 0.500       // in kg
+#define HOVER_MASS 1.434        // in kg
 #define MAX_FORCE_MOTOR1 5.0   // in N
 #define MIN_FORCE_MOTOR1 -6.0  // in N
 #define MAX_FORCE_MOTOR2 5.0   // in N
