@@ -51,13 +51,6 @@ const float Kd = 2.0; // diffrentiel hier mee iets doen uitzoeken wat het doet.
  
 long t_old, t_nw;
 float dt;
-
-void setup() {
-  Serial.begin(57600);
-  Serial.print("F a v x");  // De legenda
-  if (tijdPerPixel < cyclustijd) Serial.println("___XXXXXX____tijdPerPixel.<.cyclustijd____XXXXXX");
-  else Serial.println();
- 
   error_oud = sp - x;
  
   t_oud = millis(); // starttijd
