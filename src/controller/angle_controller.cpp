@@ -29,7 +29,10 @@ float b = 0.168;                //afstand tussen stuwkrachtmotoren
 const bool simulator = true;
 long t_oud, t_nw;
 float dt;
-
+float alpha = 0.0;                    // m/s2  HOEKVERSNELLING
+float omega = 0.0, theta = 0.0; // Beginwaarden OMEGA, hoeksnelheid, en hoek in rad met random getal
+float avg_omega = 0.0;
+int meting = 0;
 float avg_alpha = 0.0;
 float avg_omega = 0.0;
 
@@ -46,12 +49,31 @@ void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& TimeOfFlightData,
                       DoFData& degreesOfFreedomData) {
 
-  t_nw = millis();
-  if (t_nw - t_oud > cyclustijd) {
-  dt = (t_nw - t_oud) * .001;
-  t_oud = t_nw;
   
 
+  
+   if( degreesOfFreedomData.gyroData.omega < 0.0){
+      digitalWrite(kalibratie_led, HIGH);
+      meting = 1;
+   }
+      
+   if ( imu.fifoAvailable() )
+    {
+      // Use dmpUpdateFifo to update the ax, gx, mx, etc. values
+      if ( imu.dmpUpdateFifo() == INV_SUCCESS)
+      {
+        //Serial.println(String(omega) + " dps");
+      }
+    }
+
+    if(meting == 1){
+       avg_omega = (avg_omega +  degreesOfFreedomData.gyroData.omega)/2;   //Neem het gemiddelde van 2 metingen om grote
+                                         //afwijkingen te voorkomen
+      theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
+         
+    }
+ 	//Serial.println(theta);
+    
   error_gyro = sp - theta;
   d_error_gyro = error_gyro - error_gyro_oud;
   error_gyro_som = error_gyro_som + error_gyro*dt;
@@ -60,7 +82,6 @@ void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
   constrain(F_gyro, Fmin, Fmax)); 
   error_gyro_oud = error_gyro;
 
-   
   float motorForceData = F/2;
    
   motorForce.motor1Force = motorForceData;
