@@ -17,12 +17,14 @@
 #ifndef NINE_DOF_H
 #define NINE_DOF_H
 
+
 /**
  * @brief Struct with the gyro data.
  * 
  */
 struct GyroData {
 //TODO: Create a data set here.
+	
     float omega = 0.0;
 };
 
@@ -52,8 +54,8 @@ struct DoFData {
     CompassData compassData;
 };
 
-void setupDoF(void);
-
+void Kalibratie(GyroData& data);
+void setupDoF();
 void readDoF(DoFData& data);
 
 #endif  // NINE_DOF_H
