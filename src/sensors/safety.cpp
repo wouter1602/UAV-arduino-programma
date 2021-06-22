@@ -17,13 +17,22 @@
   digitalWrite(RELAY_RPI, LOW); \
   digitalWrite(RELAY_BLOWERS, LOW);
 
-#define OVER_CURRENT 500         // ADC value need for more than 7A
-#define OVER_VOLTAGE_CELL1 500   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL1 500  // ADC value needed for less than 3V
-#define OVER_VOLTAGE_CELL2 500   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL2 500  // ADC value needed for less than 3V
-#define OVER_VOLTAGE_CELL3 500   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL3 500  // ADC value needed for less than 3V
+/*
+ * V = S * (50 / 1023) -> S = V / (50/1023)
+ * S = 3 / (50 / 1023) -> S = 613.8 -> S = 613 (3V undervoltage)
+ * S = 4.2 / (50 / 1023) -> S = 859.32 -> S = 859 (4,2V overvoltage)
+ * 
+ * Over current:
+ * 66 mV /A --> V = 7 * 66 * 10 ^-3 = 0.462 V
+ * S = 0.462 / ( 50 / 1023) -> S = 94.52 -> S = 95
+ */
+#define OVER_CURRENT 95         // ADC value need for more than 7A
+#define OVER_VOLTAGE_CELL1 859   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL1 613  // ADC value needed for less than 3V
+#define OVER_VOLTAGE_CELL2 859   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL2 613  // ADC value needed for less than 3V
+#define OVER_VOLTAGE_CELL3 859   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL3 613  // ADC value needed for less than 3V
 
 struct ADC_Data {
   uint16_t cell_1;
