@@ -1,6 +1,6 @@
 /**
  * @file nine-dof.cpp
- * @author your name (you@domain.com)
+ * @author Jasper van Vliet (you@domain.com)
  * @brief
  * @version 0.1
  * @date 2021-05-24
@@ -15,14 +15,14 @@
 #include <Wire.h>
 
 #include "../../defines.h"
+#include "../lib/MPU9250/SparkFunMPU9250-DMP.h"
+#include "../lib/MPU9250/MPU9250_RegisterMap.h"
 
-imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);    //zet alle sensoren aan
-imu.setGyroFSR(2000); // Set gyro to 2000 dps
-imu.setAccelFSR(2); // Set accel to +/-2g
-imu.setLPF(5); // Set LPF corner frequency to 5Hz
-imu.setSampleRate(10); // Set sample rate to 10Hz
-imu.setCompassSampleRate(10); // Set mag rate to 10Hz
+MPU9250_DMP imu;
 
+float alpha = 0.0;                    // m/s2  HOEKVERSNELLING
+float omega = 0.0, theta = 0.0; // Beginwaarden OMEGA, hoeksnelheid, en hoek in rad met random getal
+float avg_omega = 0.0;
 
 /**
  * @brief Reads all the gyro data from the 9-axis DoF sensor
@@ -62,6 +62,12 @@ void readCompass(CompassData& data) {
  *
  */
 void setupDoF() {
+	imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);    //zet alle sensoren aan
+	imu.setGyroFSR(2000); // Set gyro to 2000 dps
+	imu.setAccelFSR(2); // Set accel to +/-2g
+	imu.setLPF(5); // Set LPF corner frequency to 5Hz
+	imu.setSampleRate(10); // Set sample rate to 10Hz
+	imu.setCompassSampleRate(10); // Set mag rate to 10Hz
 #ifdef DEBUG
   Serial.println("[INFO] Completed setup 9-axis DoF sensor");
 #endif  // DEBUG
@@ -72,6 +78,7 @@ void setupDoF() {
  *
  * @param DoFData Reference Struct with Gyro, Accelerometer and compass data.
  */
+ 
 void readDoF(DoFData& data) {
     readGyro(data.gyroData);
     readAccelerometer(data.accelerometerData);
@@ -80,7 +87,7 @@ void readDoF(DoFData& data) {
     float omega = imu.calcGyro(imu.gz);  //Uitlezen van de gyroscoop om de Z-as
     avg_omega = (avg_omega + omega)/2;   //Neem het gemiddelde van 2 metingen om grote
                                          //afwijkingen te voorkomen
-    theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
+    theta = theta + (avg_omega * DELTA_t);    //Integratie van omega om theta te verkrijgen
     Serial.println(theta);               //print theta
 
 }
