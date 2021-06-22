@@ -20,10 +20,7 @@
 
 MPU9250_DMP imu;
 
-float alpha = 0.0;                    // m/s2  HOEKVERSNELLING
-float omega = 0.0, theta = 0.0; // Beginwaarden OMEGA, hoeksnelheid, en hoek in rad met random getal
-float avg_omega = 0.0;
-int meting = 0;
+
 
 /**
  * @brief Reads all the gyro data from the 9-axis DoF sensor
@@ -31,7 +28,7 @@ int meting = 0;
  * @param GyroData struct with gyro data
  */
 void readGyro(GyroData& data) {
-    float gyroZ = imu.calcGyro(imu.gz);
+    data.omega = imu.calcGyro(imu.gz);
 }
 
 /**
@@ -81,7 +78,7 @@ void readDoF(DoFData& data) {
     readAccelerometer(data.accelerometerData);
     readCompass(data.compassData);
   
-       float omega = imu.calcGyro(imu.gz);
+  /*     float omega = imu.calcGyro(imu.gz);
 
    if(omega < 0.0){
       digitalWrite(kalibratie_led, HIGH);
@@ -103,6 +100,6 @@ void readDoF(DoFData& data) {
       theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
          
     }
-	Serial.println(theta);
+	Serial.println(theta);*/
 }
 
