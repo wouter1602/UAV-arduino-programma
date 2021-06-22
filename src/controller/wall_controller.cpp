@@ -29,17 +29,14 @@ void WALL_CONTROLLER() {
 
  float x = readToF()/1000; //Gemeten mm omzetten naar m. 
 
- error_d_front = sp_d_front - x;
+ error_d_front = sp - x;
  d_error_d_front = error_d_front - error_old_d_front; 
  F = Kp_d_front * error_d_front * Kd_d_front * d_error_d_front;
 
  F = constrain (F, Fmin, Fmax);
  error_old_d_front = error_d_front;
 
- float motorForceData = F/2;  //Delen door 2 want twee stuwmotoren
- if((abs(x-sp_d_front) <hysterese)){
-  motorForceData = 0; 
-   
+ float motorForceData = F/2;  //Delen door 2 want twee stuwmotoren   
   setMotorSpeed();
  }
 }
