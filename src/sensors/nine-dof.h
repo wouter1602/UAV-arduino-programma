@@ -23,6 +23,7 @@
  */
 struct GyroData {
 //TODO: Create a data set here.
+    float omega = 0.0;
 };
 
 /**
