@@ -23,10 +23,10 @@ float error;
 float error_old;
 float d_err;
 float error_d_front;
-float error_old_d_front;
+float error_old_d_front = 0.0;
 float d_error_d_front;
-float Kp_d_front; 
-float Kd_d_front;
+float Kd_d_front = 1.0;
+float Kp_d_front = 1.0;
 const float sp = 0.3; //setpoint in meters
 const float Kp = 2.0; //propsineel hier mee iets doen uitzoeken wat het doet.
 const float Kd = 2.0; // diffrentiel hier mee iets doen uitzoeken wat het doet. 
@@ -52,7 +52,7 @@ void wallController(MotorSettings& motorData, MotorForce& motorForce,
  d_error_d_front = error_d_front - error_old_d_front; 
  F = Kp_d_front * error_d_front * Kd_d_front * d_error_d_front;
 
- F = constrain (F, Fmin, Fmax);
+ F = constrain (F, Fmin, Fmax);      
  error_old_d_front = error_d_front;
 
  float motorForceData = F/2;  //Delen door 2 want twee stuwmotoren   
