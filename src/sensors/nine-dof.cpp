@@ -30,8 +30,6 @@ float avg_omega = 0.0;
  * @param GyroData struct with gyro data
  */
 void readGyro(GyroData& data) {
-    float gyroX = imu.calcGyro(imu.gx);
-    float gyroY = imu.calcGyro(imu.gy);
     float gyroZ = imu.calcGyro(imu.gz);
 }
 
@@ -41,8 +39,6 @@ void readGyro(GyroData& data) {
  * @param AccelerometerData struct with accelerometer data
  */
 void readAccelerometer(AccelerometerData& data) {
-    float accelX = imu.calcAccel(imu.ax);
-    float accelY = imu.calcAccel(imu.ay);
     float accelZ = imu.calcAccel(imu.az);
 }
 
@@ -52,9 +48,6 @@ void readAccelerometer(AccelerometerData& data) {
  * @param CompassData struct with compass data
  */
 void readCompass(CompassData& data) {
-    float magX = imu.calcMag(imu.mx);
-    float magY = imu.calcMag(imu.my);
-    float magZ = imu.calcMag(imu.mz);
 }
 
 /**
@@ -62,12 +55,15 @@ void readCompass(CompassData& data) {
  *
  */
 void setupDoF() {
-	imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);    //zet alle sensoren aan
-	imu.setGyroFSR(2000); // Set gyro to 2000 dps
-	imu.setAccelFSR(2); // Set accel to +/-2g
-	imu.setLPF(5); // Set LPF corner frequency to 5Hz
-	imu.setSampleRate(10); // Set sample rate to 10Hz
-	imu.setCompassSampleRate(10); // Set mag rate to 10Hz
+  imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);    //zet alle sensoren aan
+  imu.setGyroFSR(2000); // Set gyro to 2000 dps
+  imu.setAccelFSR(2); // Set accel to +/-2g
+  imu.setLPF(5); // Set LPF corner frequency to 5Hz
+  imu.setSampleRate(10); // Set sample rate to 10Hz
+  imu.setCompassSampleRate(10); // Set mag rate to 10Hz
+  imu.dmpBegin(DMP_FEATURE_GYRO_CAL |   // Enable gyro cal
+              DMP_FEATURE_SEND_CAL_GYRO,// Send cal'd gyro values
+              10);                   // Set DMP rate to 10 Hz
 #ifdef DEBUG
   Serial.println("[INFO] Completed setup 9-axis DoF sensor");
 #endif  // DEBUG
@@ -84,10 +80,28 @@ void readDoF(DoFData& data) {
     readAccelerometer(data.accelerometerData);
     readCompass(data.compassData);
   
-    float omega = imu.calcGyro(imu.gz);  //Uitlezen van de gyroscoop om de Z-as
-    avg_omega = (avg_omega + omega)/2;   //Neem het gemiddelde van 2 metingen om grote
-                                         //afwijkingen te voorkomen
-    theta = theta + (avg_omega * DELTA_t);    //Integratie van omega om theta te verkrijgen
-    Serial.println(theta);               //print theta
+       float omega = imu.calcGyro(imu.gz);
 
+   if(omega < 0.0){
+      digitalWrite(kalibratie_led, HIGH);
+      meting = 1;
+   }
+      
+   if ( imu.fifoAvailable() )
+    {
+      // Use dmpUpdateFifo to update the ax, gx, mx, etc. values
+      if ( imu.dmpUpdateFifo() == INV_SUCCESS)
+      {
+        //Serial.println(String(omega) + " dps");
+      }
+    }
+
+    if(meting == 1){
+       avg_omega = (avg_omega + omega)/2;   //Neem het gemiddelde van 2 metingen om grote
+                                         //afwijkingen te voorkomen
+      theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
+         
+    }
+	Serial.println(theta);
 }
+
