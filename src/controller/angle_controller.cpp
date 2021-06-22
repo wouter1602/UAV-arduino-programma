@@ -13,7 +13,7 @@
 
 #include "../../defines.h"
 
-
+pinMode(RELAY_BLOWERS, OUTPUT);
 const float m = 1.434;          // Massa in kg
 float F_gyro = 0.01;            // F =  0.01 zodat de kracht niet bij 0 N begint
 float Fmax = 0.11 * 2;          // Maximale stuwkracht, maal 2 want 2 motoren
@@ -50,10 +50,13 @@ void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
                       DoFData& degreesOfFreedomData) {
 
   
-
-  
+   if(meting == 0){
+     digitalWrite(RELAY_BLOWERS, LOW); 
+   } 
+    
    if( degreesOfFreedomData.gyroData.omega < 0.0){
       digitalWrite(kalibratie_led, HIGH);
+      digitalWrite(RELAY_BLOWERS, HIGH); 
       meting = 1;
    }
       
@@ -70,24 +73,24 @@ void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
        avg_omega = (avg_omega +  degreesOfFreedomData.gyroData.omega)/2;   //Neem het gemiddelde van 2 metingen om grote
                                          //afwijkingen te voorkomen
       theta = theta + (avg_omega * dt);    //Integratie van omega om theta te verkrijgen
-         
+      error_gyro = sp - theta;
+      d_error_gyro = error_gyro - error_gyro_oud;
+      error_gyro_som = error_gyro_som + error_gyro*dt;
+      float F_gyro = Kp_gyro * error_gyro + Kd_gyro * d_error_gyro/dt + Ki_gyro * error_gyro_som *dt;
+
+      constrain(F_gyro, Fmin, Fmax)); 
+      error_gyro_oud = error_gyro;
+
+      float motorForceData = F/2;
+
+      motorForce.motor1Force = motorForceData;
+      motorForce.motor2Force = motorForceData;   
     }
  	//Serial.println(theta);
     
-  error_gyro = sp - theta;
-  d_error_gyro = error_gyro - error_gyro_oud;
-  error_gyro_som = error_gyro_som + error_gyro*dt;
-  float F_gyro = Kp_gyro * error_gyro + Kd_gyro * d_error_gyro/dt + Ki_gyro * error_gyro_som *dt;
-   
-  constrain(F_gyro, Fmin, Fmax)); 
-  error_gyro_oud = error_gyro;
 
-  float motorForceData = F/2;
-   
-  motorForce.motor1Force = motorForceData;
-  motorForce.motor2Force = motorForceData;
   }
-}
+
 
 
 
