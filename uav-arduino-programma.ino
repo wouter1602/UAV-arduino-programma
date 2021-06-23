@@ -15,14 +15,15 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#include "src/sensors/ToF.h"
 #include "defines.h"
+#include "src/sensors/ToF.h"
 #include "src/sensors/motor.h"
 #include "src/sensors/nine-dof.h"
+#include "src/sensors/rpi.h"
 #include "src/sensors/safety.h"
 
 // Controllers
-//#include "src/controller/angle_controller.h"
+#include "src/controller/angle_controller.h"
 #include "src/controller/aruco_markers_controller.h"
 #include "src/controller/circular_track_controller.h"
 #include "src/controller/wall_controller.h"
@@ -53,12 +54,15 @@ void setup(void) {
   Wire.begin();
   setupToF();
   setupMotor();
+#ifdef COMPILE_ANGLE_CONTROLLER
   setupDoF();
+#endif  // COMPILE_ANGLE_CONTROLLERs
   setupRpi();
 
-  
   readToF(tofData);  // Give ToF struct initial data.
+#ifdef COMPILE_ANGLE_CONTROLLER
   readDoF(dofData);  // Give DoF struct initial data.
+#endif               // COMPILE_ANGLE_CONTROLLER
   convertForceToPWM(motorData,
                     motorForceData);  // Give motor driver struct initial data.
 
@@ -79,9 +83,11 @@ void loop(void) {
   // ToF functions
   readToF(tofData);
 
+#ifdef COMPILE_ANGLE_CONTROLLER
   // DoF functions
   readDoF(dofData);
-  
+#endif  // COMPILE_ANGLE_CONTROLLER
+
   // Controllers
   tNew = millis();
   if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely since it
@@ -90,18 +96,32 @@ void loop(void) {
       case NOTHING_CONTROLLER:
         asm("nop");  // do noting
         break;
+
+#ifdef COMPILE_ANGLE_CONTROLLER
       case ANGLE_CONTROLLER:
-        //angle_controller(motorData, motorForceData, tofData, dofData);
+        angle_controller(motorData, motorForceData, tofData, dofData);
         break;
+#endif  // COMPILE_ANGLE_CONTROLLER
+
+#ifdef COMPILE_WALL_CONTROLLER
       case WALL_CONTROLLER:
         wallController(motorData, motorForceData, tofData, dofData);
         break;
+#endif  // COMPILE_WALL_CONTROLLER
+
+#ifdef COMPILE_CIRCULAR_TRACK_CONTROLLER
       case CIRCULAR_TRACK_CONTROLLER:
         circularTrackController(motorData, motorForceData, tofData, dofData);
         break;
+#endif  // COMPILE_CIRCULAR_TRACK_CONTROLLER
+
+#ifdef COMPILE_ARUCO_CONTROLLER
       case ARUCO_MARKERS_CONTROLLER:
-        arucoMarkersController(motorData, motorForceData, tofData, dofData, rpiData);
+        arucoMarkersController(motorData, motorForceData, tofData, dofData,
+                               rpiData);
         break;
+#endif  // COMPILE_ARUCO_CONTROLLER
+
       default:
         asm("nop");
         break;
@@ -114,5 +134,5 @@ void loop(void) {
   Serial.println(motorData.motorPWMSpeed1);
   setMotorSpeed(motorData);
 
-  sendRpiData(motorData, motorForceData, tofData, dofData, adcData);
+  // sendRpiData(motorData, motorForceData, tofData, dofData, adcData);
 }

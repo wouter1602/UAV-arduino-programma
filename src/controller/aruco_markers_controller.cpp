@@ -9,9 +9,11 @@
  *
  */
 
-#include "aruco_markers_controller.h"
-
 #include "../../defines.h"
+
+#ifdef COMPILE_ARUCO_CONTROLLER //Will not compile if not defined to save space
+
+#include "aruco_markers_controller.h"
 
 #define SETPOINT 2.0  // Controller setpoint
 #define KP 1.0        // Controller proportional variable
@@ -36,7 +38,7 @@ void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
   static float force = 0.01;  // in N
   static float a = 0.0;   // in m/s²
   static float v = 0.0;   // in m/s
-
+  static float error = 0.0;
   static float error = 0.0;
   static float errorOld = 0.0;
   static float errorSom = 0.0;
@@ -76,3 +78,5 @@ void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
     }
   }
 }
+
+#endif //COMPILE_ARUCO_CONTROLLER

@@ -9,6 +9,10 @@
  *
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_ANGLE_CONTROLLER
+
 #ifndef ANGLE_CONTROLLER_H
 #define ANGLE_CONTROLLER_H
 
@@ -18,9 +22,10 @@
 //#include "../lib/MPU9250/SparkFunMPU9250-DMP.h"
 //#include "../lib/MPU9250/MPU9250_RegisterMap.h"
 
-
 void angle_controller(MotorSettings& motorData, MotorForce& motorForce,
                       TimeOfFlightData& timeOfFlightData,
                       DoFData& degreesOfFreedomData);
 
 #endif  // ANGLE_CONTROLLER_H
+
+#endif  // COMPILE_ANGLE_CONTROLLER

@@ -9,6 +9,10 @@
  *
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_ARUCO_CONTROLLER
+
 #ifndef ARRUCO_MARKERS_CONTROLLER_H
 #define ARRUCO_MARKERS_CONTROLLER_H
 
@@ -18,7 +22,9 @@
 #include "../sensors/rpi.h"
 
 void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
-                      TimeOfFlightData& timeOfFlightData,
-                      DoFData& degreesOfFreedomData, RpiData& rpiData);
+                            TimeOfFlightData& timeOfFlightData,
+                            DoFData& degreesOfFreedomData, RpiData& rpiData);
 
 #endif  // ARRUCO_MARKERS_CONTROLLER_H
+
+#endif  // COMPILE_ARUCO_CONTROLLER
