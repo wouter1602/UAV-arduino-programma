@@ -12,8 +12,17 @@
 #ifndef SAFETY_H
 #define SAFETY_H
 
-void setupSafety(void);
-void checkCellVoltage(void);
-void checkCurrent(void);
+#include <inttypes.h>
+
+struct ADC_Data {
+  uint16_t cell_1;
+  uint16_t cell_2;
+  uint16_t cell_3;
+  uint16_t current;
+};
+
+void setupSafety(ADC_Data& adcData);
+void checkCellVoltage(ADC_Data& adcData);
+void checkCurrent(ADC_Data& adcData);
 
 #endif  // SAFETY_H

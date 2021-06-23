@@ -17,7 +17,6 @@
 #ifndef NINE_DOF_H
 #define NINE_DOF_H
 
-
 /**
  * @brief Struct with the gyro data.
  * 

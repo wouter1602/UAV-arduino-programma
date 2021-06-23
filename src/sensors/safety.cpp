@@ -34,13 +34,6 @@
 #define OVER_VOLTAGE_CELL3 859   // ADC value needed for more than 4,2V
 #define UNDER_VOLTAGE_CELL3 613  // ADC value needed for less than 3V
 
-struct ADC_Data {
-  uint16_t cell_1;
-  uint16_t cell_2;
-  uint16_t cell_3;
-  uint16_t current;
-} adcData;
-
 /**
  * @brief Set the Raspberry Pi + Fans Relay on or off
  *
@@ -71,7 +64,7 @@ void setRelayBlowers(bool output) {
  * @brief Read ADC values for the battery and save  them in a private struct
  *
  */
-void readCellADC() {
+void readCellADC(ADC_Data& adcData) {
   adcData.cell_1 = analogRead(ADC_CELL1);
   adcData.cell_2 = analogRead(ADC_CELL2);
   adcData.cell_3 = analogRead(ADC_CELL3);
@@ -81,13 +74,13 @@ void readCellADC() {
  * @brief Read ADC values for the current and save them in a private struct
  *
  */
-void readCurrentADC() { adcData.current = analogRead(ADC_CURRENT); }
+void readCurrentADC(ADC_Data& adcData) { adcData.current = analogRead(ADC_CURRENT); }
 
 /**
  * @brief
  *
  */
-void setupSafety() {
+void setupSafety(ADC_Data& adcData) {
   // Set pin as output
   pinMode(RELAY_RPI, OUTPUT);
   pinMode(RELAY_BLOWERS, OUTPUT);
@@ -97,9 +90,9 @@ void setupSafety() {
   pinMode(ADC_CURRENT, INPUT);
 
   // Read ADC values
-  checkCellVoltage();
-  readCellADC();
-  readCurrentADC();
+  checkCellVoltage(adcData);
+  readCellADC(adcData);
+  readCurrentADC(adcData);
 
   #ifdef DEBUG
 Serial.println("[INFO] Completed setup Safety.");
@@ -111,8 +104,8 @@ Serial.println("[INFO] Completed setup Safety.");
  * high or low
  *
  */
-void checkCellVoltage(void) {
-  readCellADC();
+void checkCellVoltage(ADC_Data& adcData) {
+  readCellADC(adcData);
   if (adcData.cell_1 > OVER_VOLTAGE_CELL1 ||
       adcData.cell_1 < UNDER_VOLTAGE_CELL1) {
     TURN_OFF_RELAY
@@ -152,8 +145,8 @@ void checkCellVoltage(void) {
  * If the current is still too high after turning off the blower the Raspberry
  * Pi will also be turned off.
  */
-void checkCurrent(void) {
-  readCurrentADC();
+void checkCurrent(ADC_Data& adcData) {
+  readCurrentADC(adcData);
 #ifdef DEBUG
   Serial.print("[INFO] Read ADC Current: ");
   Serial.println(adcData.current);

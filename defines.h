@@ -34,6 +34,10 @@
 #define CIRCULAR_TRACK_CONTROLLER 3
 #define ARUCO_MARKERS_CONTROLLER 4
 
+// Raspberry Pi TWI / I²C address
+#define RPI_ADDRESS 0x09
+#define RPI_DATA_TAB Wire.write(0x09);
+
 // Pin defines
 
 // ToF pins
@@ -66,8 +70,25 @@
 #define RELAY_RPI 22
 #define RELAY_BLOWERS 23
 
+
+// RPI test data
+#define USE_RPI_TEST_DATA
+#define TOF_FAKE_DATA1 15
+#define TOF_FAKE_DATA2 20
+#define TOF_FAKE_DATA3 31
+#define ADC_FAKE_CELL1 300
+#define ADC_FAKE_CELL2 800
+#define ADC_FAKE_CELL3 150
+#define CURRENT_FAKE 90
+#define MOTOR_FAKE_PWM1 -90
+#define MOTOR_FAKE_PWM2 200
+#define MOTOR_FAKE_PWM3 80
+#define MOTOR_FAKE_FORCE1 60.3
+#define MOTOR_FAKE_FORCE2 -9.6
+#define MOTOR_FAKE_FORCE3 8.7
+
 //DOF
 #define CALIBRATION_LED 8
 
-
 #endif  // DEFINES_H
+

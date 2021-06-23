@@ -28,6 +28,7 @@
 #include "src/controller/wall_controller.h"
 
 // Sensor and motor variables
+ADC_Data adcData;
 TimeOfFlightData tofData;
 DoFData dofData;
 MotorSettings motorData;
@@ -48,11 +49,12 @@ void setup(void) {
 #ifdef DEBUG
   Serial.begin(115200);
 #endif  // DEBUG
-  setupSafety();
+  setupSafety(adcData);
   Wire.begin();
   setupToF();
   setupMotor();
   setupDoF();
+  setupRpi();
 
   
   readToF(tofData);  // Give ToF struct initial data.
@@ -117,4 +119,6 @@ void loop(void) {
   Serial.println(motorForceData.motor1Force);
   Serial.println(motorData.motorPWMSpeed1);
   setMotorSpeed(motorData);
+
+  sendRpiData(motorData, motorForceData, tofData, dofData, adcData);
 }
