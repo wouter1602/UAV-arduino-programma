@@ -119,12 +119,11 @@ inline void emptyDataStruct(RpiData& data){
 }
 
 /**
- * @brief
+ * @brief Recievese Arucomarker ID's and X, Y coordinates
  *
  * @param data
  */
 void receiveRpiData(RpiData& data) {
-  emptyDataStruct(data);
   uint8_t rawData[MAX_MARKERS*5] = {0};
   uint8_t markersFound = 0;
   uint8_t i = 0;
@@ -161,7 +160,6 @@ void receiveRpiData(RpiData& data) {
       data.markers[i].markerX = rawData[pos+1] << 8 + rawData[pos + 2];
       data.markers[i].markerY = rawData[pos+3] << 8 + rawData[pos + 4];
     }
-    
   }  
 
 }

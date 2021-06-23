@@ -14,8 +14,8 @@
  * https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf
  */
 
-#ifndef NINE-DOF_H
-#define NINE-DOF_H
+#ifndef NINE_DOF_H
+#define NINE_DOF_H 
 
 /**
  * @brief Struct with the gyro data.
@@ -55,4 +55,4 @@ void setupDoF(void);
 
 void readDoF(DoFData& data);
 
-#endif  // NINE-DOF_H
+#endif  // NINE_DOF_H

@@ -17,7 +17,7 @@
 #include "nine-dof.h"
 #include "safety.h"
 
-#define MAX_MARKERS 20
+#define MAX_MARKERS 20      //Max unique markers that can be received by the Arduino
 
 struct markerData {
     uint8_t markerId = 0;
