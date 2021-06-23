@@ -22,7 +22,7 @@
 #include "src/sensors/safety.h"
 
 // Controllers
-#include "src/controller/angle_controller.h"
+//#include "src/controller/angle_controller.h"
 #include "src/controller/aruco_markers_controller.h"
 #include "src/controller/circular_track_controller.h"
 #include "src/controller/wall_controller.h"
@@ -34,13 +34,12 @@ DoFData dofData;
 MotorSettings motorData;
 MotorForce motorForceData;
 RpiData rpiData;
-
 // Global controller data
 unsigned long tNew = 0;
 unsigned long tOld = 0;
 
 // Select controller
-uint8_t controllerChoice = NOTHING_CONTROLLER;
+uint8_t controllerChoice = WALL_CONTROLLER;
 
 /**
  * @brief
@@ -48,7 +47,7 @@ uint8_t controllerChoice = NOTHING_CONTROLLER;
  */
 void setup(void) {
 #ifdef DEBUG
-  Serial.begin(112500);
+  Serial.begin(115200);
 #endif  // DEBUG
   setupSafety(adcData);
   Wire.begin();
@@ -57,12 +56,15 @@ void setup(void) {
   setupDoF();
   setupRpi();
 
+  
   readToF(tofData);  // Give ToF struct initial data.
   readDoF(dofData);  // Give DoF struct initial data.
   convertForceToPWM(motorData,
                     motorForceData);  // Give motor driver struct initial data.
 
   tOld = millis();  // Provide inital data
+  digitalWrite(RELAY_RPI, HIGH);
+  digitalWrite(RELAY_BLOWERS, HIGH);
 }
 
 /**
@@ -71,8 +73,8 @@ void setup(void) {
  */
 void loop(void) {
   // Safety functions
-  // checkCellVoltage(adcData);
-  // checkCurrent(adcData);
+  // checkCellVoltage();
+  // checkCurrent();
 
   // ToF functions
   readToF(tofData);
@@ -80,6 +82,12 @@ void loop(void) {
   // DoF functions
   readDoF(dofData);
 
+/*  motorData.motorPWMSpeed1 = 255;
+  motorData.motorPWMSpeed2 = 255;
+  motorData.motorPWMSpeed3 = 0;
+  setMotorSpeed(motorData);
+  */
+  
   // Controllers
   tNew = millis();
   if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely sind it
@@ -89,7 +97,7 @@ void loop(void) {
         asm("nop");  // do noting
         break;
       case ANGLE_CONTROLLER:
-        angle_controller(motorData, motorForceData, tofData, dofData);
+        //angle_controller(motorData, motorForceData, tofData, dofData);
         break;
       case WALL_CONTROLLER:
         wallController(motorData, motorForceData, tofData, dofData);
@@ -108,6 +116,8 @@ void loop(void) {
 
   // Motor functions
   convertForceToPWM(motorData, motorForceData);
+  Serial.println(motorForceData.motor1Force);
+  Serial.println(motorData.motorPWMSpeed1);
   setMotorSpeed(motorData);
 
   sendRpiData(motorData, motorForceData, tofData, dofData, adcData);

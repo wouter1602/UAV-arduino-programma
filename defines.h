@@ -18,7 +18,7 @@
                // port.
 
 // Physical attributes Hovercraft
-#define HOVER_MASS 0.500       // in kg
+#define HOVER_MASS 1.434        // in kg
 #define MAX_FORCE_MOTOR1 5.0   // in N
 #define MIN_FORCE_MOTOR1 -6.0  // in N
 #define MAX_FORCE_MOTOR2 5.0   // in N
@@ -45,14 +45,20 @@
 #define TOF_XSHUT2 32
 #define TOF_XSHUT3 33
 
+#define TOF_ADDRESS1 0x30
+#define TOF_ADDRESS2 0x32
+#define TOF_ADDRESS3 0x34
+
+#define TOF_MEASUREMENT_TIMEOUT 4  // in ms
+
 // Motor pins
-#define MOTOR_PWM1 6
-#define MOTOR_PWM2 7
-#define MOTOR_PWM3 8
+#define MOTOR_PWM1 5
+#define MOTOR_PWM2 6
+#define MOTOR_PWM3 7
 #define MOTOR_ENABLE_LEFT1 24
 #define MOTOR_ENABLE_RIGHT1 25
-#define MOTOR_ENABLE_LEFT2 27
-#define MOTOR_ENABLE_RIGHT2 26
+#define MOTOR_ENABLE_LEFT2 26
+#define MOTOR_ENABLE_RIGHT2 27
 #define MOTOR_ENABLE_LEFT3 28
 #define MOTOR_ENABLE_RIGHT3 29
 
@@ -63,6 +69,7 @@
 #define ADC_CURRENT A15
 #define RELAY_RPI 22
 #define RELAY_BLOWERS 23
+
 
 // RPI test data
 #define USE_RPI_TEST_DATA
@@ -80,5 +87,8 @@
 #define MOTOR_FAKE_FORCE2 -9.6
 #define MOTOR_FAKE_FORCE3 8.7
 
+//DOF
+#define CALIBRATION_LED 8
 
 #endif  // DEFINES_H
+
