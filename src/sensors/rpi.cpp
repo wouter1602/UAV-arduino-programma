@@ -109,9 +109,59 @@ void sendRpiData(MotorSettings& motorData, MotorForce& motorForce,
 #endif  // DEBUG
 }
 
+inline void emptyDataStruct(RpiData& data){
+  for (uint8_t i = 0; i < MAX_MARKERS; i++) {
+    data.markers[0].markerId = 0;
+    data.markers[0].markerX = 0;
+    data.markers[0].markerY = 0;
+  }
+  
+}
+
 /**
  * @brief
  *
  * @param data
  */
-void receiveRpiData(RpiData& data) {}
+void receiveRpiData(RpiData& data) {
+  emptyDataStruct(data);
+  uint8_t rawData[MAX_MARKERS*5] = {0};
+  uint8_t markersFound = 0;
+  uint8_t i = 0;
+
+  Wire.beginTransmission(RPI_ADDRESS);
+  Wire.write('D');
+  delay(15);      //Uit orginele code
+
+  Wire.requestFrom(RPI_ADDRESS, 1);
+
+  while (Wire.available()) {
+    markersFound = Wire.read();
+  }
+
+  Wire.endTransmission();
+
+  if (markersFound == 0 || markersFound > MAX_MARKERS) {
+    return;     // Don't ask for markers because there are none
+  } else {
+    Wire.beginTransmission(RPI_ADDRESS);
+    Wire.write('E');
+    delay(15);
+
+    Wire.requestFrom(RPI_ADDRESS, (markersFound * 5));
+
+    while (Wire.available()) {
+      rawData[i] = Wire.read();
+      i++;
+    }
+
+    for (uint8_t i = 0; i < markersFound; i++) {
+      uint8_t pos = i * 5;
+      data.markers[i].markerId = rawData[pos];
+      data.markers[i].markerX = rawData[pos+1] << 8 + rawData[pos + 2];
+      data.markers[i].markerY = rawData[pos+3] << 8 + rawData[pos + 4];
+    }
+    
+  }  
+
+}

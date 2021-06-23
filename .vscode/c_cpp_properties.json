@@ -3,9 +3,8 @@
     "configurations": [
         {
             "name": "Arduino",
-            "compilerPath": "/opt/arduino/hardware/tools/avr/bin/avr-g++",
+            "compilerPath": "/opt/arduino-1.8.13/hardware/tools/avr/bin/avr-g++",
             "compilerArgs": [
-                "-w",
                 "-std=gnu++11",
                 "-fpermissive",
                 "-fno-exceptions",
@@ -16,15 +15,15 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "/opt/arduino/hardware/arduino/avr/cores/arduino",
-                "/opt/arduino/hardware/arduino/avr/variants/mega",
-                "/opt/arduino/hardware/arduino/avr/libraries/Wire/src",
-                "/opt/arduino/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
-                "/opt/arduino/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
-                "/opt/arduino/hardware/tools/avr/avr/include"
+                "/opt/arduino-1.8.13/hardware/arduino/avr/cores/arduino",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/variants/mega",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/Wire/src",
+                "/opt/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
+                "/opt/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
+                "/opt/arduino-1.8.13/hardware/tools/avr/avr/include"
             ],
             "forcedInclude": [
-                "/opt/arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
+                "/opt/arduino-1.8.13/hardware/arduino/avr/cores/arduino/Arduino.h"
             ],
             "cStandard": "c11",
             "cppStandard": "c++11",

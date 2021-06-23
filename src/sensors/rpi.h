@@ -17,7 +17,17 @@
 #include "nine-dof.h"
 #include "safety.h"
 
-struct RpiData {};
+#define MAX_MARKERS 20
+
+struct markerData {
+    uint8_t markerId = 0;
+    uint16_t markerX = 0;
+    uint16_t markerY = 0;
+};
+
+struct RpiData {
+    markerData markers[MAX_MARKERS];
+};
 
 void setupRpi(void);
 
