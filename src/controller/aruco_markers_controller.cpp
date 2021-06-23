@@ -9,9 +9,12 @@
  *
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_ARUCO_CONTROLLER //Will not compile if not defined to save space
 #include "aruco_markers_controller.h"
 
-#include "../../defines.h"
+
 
 /**
  * @brief
@@ -26,3 +29,4 @@ void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
                             TimeOfFlightData& timeOfFlightData,
                             DoFData& degreesOfFreedomData, RpiData& rpiData) {}
 
+#endif //COMPILE_ARUCO_CONTROLLER

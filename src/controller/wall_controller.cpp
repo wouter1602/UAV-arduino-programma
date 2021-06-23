@@ -9,9 +9,13 @@
  *
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_WALL_CONTROLLER  //Will not compile if not defined to save space
+
 #include "wall_controller.h"
 
-#include "../../defines.h"
+
 
 float F = 0.01;              // N beginwaarde
 const float Fmax = 0.2;
@@ -62,3 +66,4 @@ void wallController(MotorSettings& motorData, MotorForce& motorForce,
  
 }
 
+#endif

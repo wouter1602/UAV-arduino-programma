@@ -9,6 +9,10 @@
  *
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_WALL_CONTROLLER 
+
 #ifndef WALL_CONTROLLER_H
 #define WALL_CONTROLLER_H
 
@@ -21,3 +25,5 @@ void wallController(MotorSettings& motorData, MotorForce& motorForce,
                     DoFData& degreesOfFreedomData);
 
 #endif  // WALL_CONTROLLER_H
+
+#endif //COMPILE_WALL_CONTROLLER

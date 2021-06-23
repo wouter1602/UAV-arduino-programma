@@ -9,9 +9,14 @@
  *
  */
 
-#include "circular_track_controller.h"
 
 #include "../../defines.h"
+
+#ifdef COMPILE_CIRCULAR_TRACK_CONTROLLER    ////Will not compile if not defined to save space
+
+#include "circular_track_controller.h"
+
+
 
 /**
  * @brief 
@@ -24,3 +29,5 @@
 void circularTrackController(MotorSettings& motorData, MotorForce& motorForce,
                              TimeOfFlightData& timeOfFlightData,
                              DoFData& degreesOfFreedomData) {}
+
+#endif //COMPILE_CIRCULAR_TRACK_CONTROLLER

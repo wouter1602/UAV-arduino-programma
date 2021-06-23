@@ -9,6 +9,10 @@
  * 
  */
 
+#include "../../defines.h"
+
+#ifdef COMPILE_CIRCULAR_TRACK_CONTROLLER
+
 #ifndef CIRCULAR_TRACK_CONTROLLER_H
 #define CIRCULAR_TRACK_CONTROLLER_H
 
@@ -21,3 +25,5 @@ void circularTrackController(MotorSettings& motorData, MotorForce& motorForce,
                       DoFData& degreesOfFreedomData);
 
 #endif //CIRCULAR_TRACK_CONTROLLER_H
+
+#endif //COMPILE_CIRCULAR_TRACK_CONTROLLER
