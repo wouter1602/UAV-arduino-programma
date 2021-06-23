@@ -1,7 +1,7 @@
 /**
  * @file i2c.cpp
- * @author your name (you@domain.com)
- * @brief 
+ * @author Wouter van Velzen (19093861@student.hhs.nl)
+ * @brief Send variables higher than 16-bit and floats over I2C.
  * @version 0.1
  * @date 2021-06-01
  * 

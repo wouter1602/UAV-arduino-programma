@@ -17,16 +17,20 @@
   digitalWrite(RELAY_RPI, LOW); \
   digitalWrite(RELAY_BLOWERS, LOW);
 
+#define TURN_ON_RELAY           \
+  digitalWrite(RELAY_RPI, HIGH);\
+  digitalWrite(RELAY_BLOWERS, HIGH);
+
 /*
  * V = S * (50 / 1023) -> S = V / (50/1023)
  * S = 3 / (50 / 1023) -> S = 613.8 -> S = 613 (3V undervoltage)
  * S = 4.2 / (50 / 1023) -> S = 859.32 -> S = 859 (4,2V overvoltage)
- * 
+ *
  * Over current:
  * 66 mV /A --> V = 7 * 66 * 10 ^-3 = 0.462 V
  * S = 0.462 / ( 50 / 1023) -> S = 94.52 -> S = 95
  */
-#define OVER_CURRENT 95         // ADC value need for more than 7A
+#define OVER_CURRENT 95          // ADC value need for more than 7A
 #define OVER_VOLTAGE_CELL1 859   // ADC value needed for more than 4,2V
 #define UNDER_VOLTAGE_CELL1 613  // ADC value needed for less than 3V
 #define OVER_VOLTAGE_CELL2 859   // ADC value needed for more than 4,2V
@@ -74,10 +78,13 @@ void readCellADC(ADC_Data& adcData) {
  * @brief Read ADC values for the current and save them in a private struct
  *
  */
-void readCurrentADC(ADC_Data& adcData) { adcData.current = analogRead(ADC_CURRENT); }
+void readCurrentADC(ADC_Data& adcData) {
+  adcData.current = analogRead(ADC_CURRENT);
+}
 
 /**
- * @brief
+ * @brief Initialises safety pins and checks initial cell voltage / current
+ * consumption
  *
  */
 void setupSafety(ADC_Data& adcData) {
@@ -91,12 +98,11 @@ void setupSafety(ADC_Data& adcData) {
 
   // Read ADC values
   checkCellVoltage(adcData);
-  readCellADC(adcData);
-  readCurrentADC(adcData);
+  checkCurrent(adcData);
 
-  #ifdef DEBUG
-Serial.println("[INFO] Completed setup Safety.");
-  #endif //DEBUG
+#ifdef DEBUG
+  Serial.println("[INFO] Completed setup Safety.");
+#endif  // DEBUG
 }
 
 /**
@@ -105,6 +111,7 @@ Serial.println("[INFO] Completed setup Safety.");
  *
  */
 void checkCellVoltage(ADC_Data& adcData) {
+  uint8_t checkSum = 0;
   readCellADC(adcData);
   if (adcData.cell_1 > OVER_VOLTAGE_CELL1 ||
       adcData.cell_1 < UNDER_VOLTAGE_CELL1) {
@@ -112,6 +119,8 @@ void checkCellVoltage(ADC_Data& adcData) {
 #ifdef DEBUG
     Serial.println("[ERROR] Cell 1 too high or low. shutting down all relays.");
 #endif  // DEBUG
+  } else {
+    checkSum++;
   }
   if (adcData.cell_2 > OVER_VOLTAGE_CELL2 ||
       adcData.cell_2 < UNDER_VOLTAGE_CELL2) {
@@ -119,6 +128,8 @@ void checkCellVoltage(ADC_Data& adcData) {
 #ifdef DEBUG
     Serial.println("[ERROR] Cell 2 too high or low. shutting down all relays.");
 #endif  // DEBUG
+  } else {
+    checkSum++;
   }
   if (adcData.cell_3 > OVER_VOLTAGE_CELL3 ||
       adcData.cell_3 < UNDER_VOLTAGE_CELL3) {
@@ -126,6 +137,8 @@ void checkCellVoltage(ADC_Data& adcData) {
 #ifdef DEBUG
     Serial.println("[ERROR] Cell 3 too high or low. shutting down all relays.");
 #endif  // DEBUG
+  } else {
+    checkSum++;
   }
 
 #ifdef DEBUG
@@ -137,6 +150,10 @@ void checkCellVoltage(ADC_Data& adcData) {
   Serial.print("Cell 3: ");
   Serial.println(adcData.cell_3);
 #endif  // DEBUG
+
+  if (checkSum == 3) {    // If all the cell voltages are correct the Relay's are turned on.
+    TURN_ON_RELAY
+  }
 }
 
 /**
@@ -147,22 +164,28 @@ void checkCellVoltage(ADC_Data& adcData) {
  */
 void checkCurrent(ADC_Data& adcData) {
   readCurrentADC(adcData);
+
 #ifdef DEBUG
   Serial.print("[INFO] Read ADC Current: ");
   Serial.println(adcData.current);
 #endif  // DEBUG
+
   if (adcData.current > OVER_CURRENT) {
     if (digitalRead(RELAY_BLOWERS) == LOW) {
       digitalWrite(RELAY_RPI, LOW);
+
 #ifdef DEBUG
       Serial.println(
           "[ERROR] Current too high! shuting off Raspberry pi + fans.");
 #endif  // DEBUG
+
     } else {
       digitalWrite(RELAY_BLOWERS, LOW);
+
 #ifdef DEBUG
       Serial.println("[ERROR] Current too high! shuting off blowers.");
 #endif  // DEBUG
+
     }
   }
 }

@@ -14,6 +14,7 @@
  * https://www.st.com/resource/en/data_brief/vl53l0x.pdf
  * https://www.st.com/resource/en/user_manual/dm00279088-world-smallest-timeofflight-ranging-and-gesture-detection-sensor-application-programming-interface-stmicroelectronics.pdf
  */
+
 #ifndef TOF_H
 #define TOF_H
 

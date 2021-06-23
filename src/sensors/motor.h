@@ -1,6 +1,7 @@
 /**
  * @file motor.h
  * @author Wouter van Velzen (19093861@student.hhs.nl)
+ * @author Jasper van Vliet (19069987@student.hhs.nl)
  * @brief
  * @version 0.1
  * @date 2021-05-24

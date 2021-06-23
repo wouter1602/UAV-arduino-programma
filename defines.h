@@ -19,13 +19,13 @@
 
 // Physical attributes Hovercraft
 #define HOVER_MASS 1.434        // in kg
-#define MAX_FORCE_MOTOR1 5.0   // in N
-#define MIN_FORCE_MOTOR1 -6.0  // in N
-#define MAX_FORCE_MOTOR2 5.0   // in N
-#define MIN_FORCE_MOTOR2 -6.0  // in N
-#define MAX_FORCE_MOTOR3 5.0   // in N
-#define MIN_FORCE_MOTOR3 -6.0  // in N
-#define DELTA_t 10             // in ms
+#define MAX_FORCE_MOTOR1 0.2    // in N
+#define MIN_FORCE_MOTOR1 -0.228 // in N
+#define MAX_FORCE_MOTOR2 0.2    // in N
+#define MIN_FORCE_MOTOR2 -0.228 // in N
+#define MAX_FORCE_MOTOR3 0.2    // in N
+#define MIN_FORCE_MOTOR3 -0.228 // in N
+#define DELTA_t 10              // in ms
 
 // Controllers abbreviations
 #define NOTHING_CONTROLLER 0
@@ -69,7 +69,6 @@
 #define ADC_CURRENT A15
 #define RELAY_RPI 22
 #define RELAY_BLOWERS 23
-
 
 // RPI test data
 #define USE_RPI_TEST_DATA

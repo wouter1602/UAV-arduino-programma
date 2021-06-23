@@ -73,24 +73,18 @@ void setup(void) {
  */
 void loop(void) {
   // Safety functions
-  // checkCellVoltage();
-  // checkCurrent();
+  checkCellVoltage(adcData);
+  checkCurrent(adcData);
 
   // ToF functions
   readToF(tofData);
 
   // DoF functions
   readDoF(dofData);
-
-/*  motorData.motorPWMSpeed1 = 255;
-  motorData.motorPWMSpeed2 = 255;
-  motorData.motorPWMSpeed3 = 0;
-  setMotorSpeed(motorData);
-  */
   
   // Controllers
   tNew = millis();
-  if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely sind it
+  if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely since it
                                 // hapens after approx 50 days.
     switch (controllerChoice) {
       case NOTHING_CONTROLLER:

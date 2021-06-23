@@ -1,6 +1,6 @@
 /**
  * @file nine-dof.h
- * @author your name (you@domain.com)
+ * @author Jasper van Vliet (19069987@student.hhs.nl)
  * @brief Functions to read the mems MPU-9250
  * @version 0.1
  * @date 2021-05-24
@@ -19,38 +19,41 @@
 
 /**
  * @brief Struct with the gyro data.
- * 
+ *
  */
 struct GyroData {
-//TODO: Create a data set here.
-	
-    float omega = 0.0;
+  float omega = 0.0;
 };
 
+// Removed structs not used in the product
+#ifdef EXTRA_DOF
 /**
  * @brief Struct with the accelerometer data
- * 
+ *
  */
 struct AccelerometerData {
-//TODO: Create a data set here.
+  // TODO: Create a data set here.
 };
 
 /**
  * @brief Struct with the compass data.
- * 
+ *
  */
 struct CompassData {
-//TODO: Create a data set here.
+  // TODO: Create a data set here.
 };
+#endif  // EXTRA_DOF
 
 /**
  * @brief Struct with all the 9-axis DoF sensor data
- * 
+ *
  */
 struct DoFData {
-    GyroData gyroData;
-    AccelerometerData accelerometerData;
-    CompassData compassData;
+  GyroData gyroData;
+#ifdef EXTRA_DOF
+  AccelerometerData accelerometerData;
+  CompassData compassData;
+#endif  // EXTRA_DOF
 };
 
 void Kalibratie(GyroData& data);

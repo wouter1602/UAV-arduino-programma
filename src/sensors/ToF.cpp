@@ -99,6 +99,7 @@ inline void setID() {
 void setupToF() {
   // Set ID's
   setID();
+
 #ifdef DEBUG
   Serial.println("[INFO] Completed ToF setup.");
 #endif  // DEBUG
@@ -111,13 +112,14 @@ void setupToF() {
  */
 void readToF(TimeOfFlightData& data) {
   tofSensors.newMillis = millis();
-  
+
   if (tofSensors.measurementBusy == false) {
     // Read distance of ToF sensors.
     tofSensors.ToF1.rangingTest(&tofSensors.measure1, false);
     tofSensors.ToF2.rangingTest(&tofSensors.measure2, false);
     tofSensors.ToF3.rangingTest(&tofSensors.measure3, false);
     tofSensors.measurementBusy = true;
+
 #ifdef DEBUG
     Serial.println("[INFO] started ToF measurement");
 #endif  // DEBUG
@@ -125,11 +127,13 @@ void readToF(TimeOfFlightData& data) {
 
   if (tofSensors.measure1.RangeStatus != 4) {
     data.sensor1 = tofSensors.measure1.RangeMilliMeter;
+
 #ifdef DEBUG
     Serial.print("[INFO] ToF sensor 1 data: ");
     Serial.print(data.sensor1);
     Serial.println(" mm.");
 #endif  // DEBUG
+
   } else {
 #ifdef DEBUG
     Serial.println("[INFO] ToF sensor 1 out of range.");
@@ -138,11 +142,13 @@ void readToF(TimeOfFlightData& data) {
 
   if (tofSensors.measure2.RangeStatus != 4) {
     data.sensor2 = tofSensors.measure2.RangeMilliMeter;
+
 #ifdef DEBUG
     Serial.print("[INFO] ToF sensor 2 data: ");
     Serial.print(data.sensor2);
     Serial.println(" mm.");
 #endif  // DEBUG
+
   } else {
 #ifdef DEBUG
     Serial.println("[INFO] ToF sensor 2 out of range.");
@@ -151,22 +157,24 @@ void readToF(TimeOfFlightData& data) {
 
   if (tofSensors.measure3.RangeStatus != 4) {
     data.sensor2 = tofSensors.measure3.RangeMilliMeter;
+
 #ifdef DEBUG
     Serial.print("[INFO] ToF sensor 3 data: ");
     Serial.print(data.sensor3);
     Serial.println(" mm.");
 #endif  // DEBUG
+
   } else {
 #ifdef DEBUG
     Serial.println("[INFO] ToF sensor 3 out of range.");
 #endif  // DEBUG
   }
 
-//Reset measurement busy when all the data is received or an timeout is met.
+  // Reset measurement busy when all the data is received or an timeout is met.
   if ((tofSensors.measure1.RangeMilliMeter != 4 &&
        tofSensors.measure2.RangeMilliMeter != 4 &&
        tofSensors.measure3.RangeMilliMeter != 4) ||
-       (tofSensors.newMillis - tofSensors.oldMillis > TOF_MEASUREMENT_TIMEOUT)) {
+      (tofSensors.newMillis - tofSensors.oldMillis > TOF_MEASUREMENT_TIMEOUT)) {
     tofSensors.measurementBusy = false;
   }
 }
