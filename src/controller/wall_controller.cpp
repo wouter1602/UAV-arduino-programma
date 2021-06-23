@@ -29,7 +29,7 @@ float Kd_d_front = 1.0;
 float Kp_d_front = 1.0;
 const float sp = 0.3; //setpoint in meters
 const float Kp = 2.0; //propsineel hier mee iets doen uitzoeken wat het doet.
-const float Kd = 2.0; // diffrentiel hier mee iets doen uitzoeken wat het doet. 
+const float Kd = 2.0; // differentiële hier mee iets doen uitzoeken wat het doet. 
  
 long t_old, t_nw;
 float dt;

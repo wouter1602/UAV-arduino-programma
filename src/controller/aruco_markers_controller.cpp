@@ -13,6 +13,14 @@
 
 #include "../../defines.h"
 
+#define SETPOINT 2.0  // Controller setpoint
+#define KP 1.0        // Controller proportional variable
+#define KD 1.0        // Controller differential variable
+#define KI 1.0        // Controller integral variable
+
+#define ERROR_SOM_LOW -0.12
+#define ERROR_SOM_HIGH 0.2
+
 /**
  * @brief
  *
@@ -20,9 +28,51 @@
  * @param motorForce Struct with motor force
  * @param TimeOfFlightData Struct with ToF distance data
  * @param degreesOfFreedomData Struct with 9-axes DoF data
- * @param rpiData 
+ * @param rpiData
  */
 void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
                             TimeOfFlightData& timeOfFlightData,
-                            DoFData& degreesOfFreedomData, RpiData& rpiData) {}
+                            DoFData& degreesOfFreedomData, RpiData& rpiData) {
+  static float force = 0.01;  // in N
+  static float a = 0.0;   // in m/s²
+  static float v = 0.0;   // in m/s
 
+  static float error = 0.0;
+  static float errorOld = 0.0;
+  static float errorSom = 0.0;
+  static float deltaError = 0.0;
+  static float kDDelta = 1.0;
+  static float kPDelta = 1.0;
+
+  uint16_t x = rpiData.markers[0].markerX;
+
+  errorOld = error;
+  error = SETPOINT - x;
+
+  deltaError = error - errorOld;
+  errorSom += error;
+
+  errorSom = constrain(errorSom, ERROR_SOM_LOW, ERROR_SOM_HIGH);
+
+  force = KP * error + ((KD * deltaError) / DELTA_t);
+
+  force = constrain(force, 2 * MIN_FORCE_MOTOR1, 2 * MAX_FORCE_MOTOR1);
+
+  float perMotorForce = force / 2;
+  if (force > 0.0) {  // Rotate right
+    motorForce.motor1Force = perMotorForce;
+    motorForce.motor2Force = -1 * perMotorForce;
+    if (!digitalRead(RELAY_BLOWERS)) {
+      digitalWrite(RELAY_BLOWERS, HIGH);
+    }
+
+  } else if (force < 0.0) {  // Rotate left
+    motorForce.motor1Force = -1 * perMotorForce;
+    motorForce.motor2Force = perMotorForce;
+    if (!digitalRead(RELAY_BLOWERS)) {
+      digitalWrite(RELAY_BLOWERS, HIGH);
+    } else {
+      digitalWrite(RELAY_BLOWERS, LOW);
+    }
+  }
+}
