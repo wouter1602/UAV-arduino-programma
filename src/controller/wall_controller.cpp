@@ -50,7 +50,7 @@ void wallController(MotorSettings& motorData, MotorForce& motorForce,
 
  error_d_front = sp - x;
  d_error_d_front = error_d_front - error_old_d_front; 
- F = Kp_d_front * error_d_front * Kd_d_front * d_error_d_front;
+ F = Kp_d_front * error_d_front + Kd_d_front * d_error_d_front/dt;
 
  F = constrain (F, Fmin, Fmax);      
  error_old_d_front = error_d_front;
