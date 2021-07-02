@@ -22,8 +22,7 @@
 #include "../sensors/rpi.h"
 
 void arucoMarkersController(MotorSettings& motorData, MotorForce& motorForce,
-                            TimeOfFlightData& timeOfFlightData,
-                            DoFData& degreesOfFreedomData, RpiData& rpiData);
+                            RpiData& rpiData);
 
 #endif  // ARRUCO_MARKERS_CONTROLLER_H
 

@@ -13,6 +13,10 @@
 
 #ifdef COMPILE_WALL_CONTROLLER 
 
+#ifndef COMPILE_TOF
+#define COMPILE_TOF
+#endif
+
 #ifndef WALL_CONTROLLER_H
 #define WALL_CONTROLLER_H
 

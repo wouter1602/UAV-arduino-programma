@@ -16,11 +16,6 @@
 #include <Wire.h>
 
 #include "defines.h"
-#include "src/sensors/ToF.h"
-#include "src/sensors/motor.h"
-#include "src/sensors/nine-dof.h"
-#include "src/sensors/rpi.h"
-#include "src/sensors/safety.h"
 
 // Controllers
 #include "src/controller/angle_controller.h"
@@ -28,19 +23,36 @@
 #include "src/controller/circular_track_controller.h"
 #include "src/controller/wall_controller.h"
 
+// Sensros
+#include "src/sensors/ToF.h"
+#include "src/sensors/motor.h"
+#include "src/sensors/nine-dof.h"
+#include "src/sensors/rpi.h"
+#include "src/sensors/safety.h"
+
 // Sensor and motor variables
 ADC_Data adcData;
+#ifdef COMPILE_TOF
 TimeOfFlightData tofData;
+#endif  // COMPILE_TOF
+
+#ifdef COMPILE_ANGLE_CONTROLLER
 DoFData dofData;
+#endif  // COMPILE_ANGLE_CONTROLLER
+
 MotorSettings motorData;
 MotorForce motorForceData;
+
+#ifdef COMPILE_ARUCO_CONTROLLER
 RpiData rpiData;
+#endif  // COMPILE_ARUCO_CONTROLLER
+
 // Global controller data
 unsigned long tNew = 0;
 unsigned long tOld = 0;
 
 // Select controller
-uint8_t controllerChoice = WALL_CONTROLLER;
+const uint8_t controllerChoice = ARUCO_MARKERS_CONTROLLER;
 
 /**
  * @brief
@@ -50,19 +62,32 @@ void setup(void) {
 #ifdef DEBUG
   Serial.begin(115200);
 #endif  // DEBUG
+
   setupSafety(adcData);
   Wire.begin();
-  setupToF();
-  setupMotor();
-#ifdef COMPILE_ANGLE_CONTROLLER
-  setupDoF();
-#endif  // COMPILE_ANGLE_CONTROLLERs
-  setupRpi();
 
-  readToF(tofData);  // Give ToF struct initial data.
+#ifdef COMPILE_TOF
+  setupToF();
+#endif  // COMPILE_TOF
+
+  setupMotor();
+
 #ifdef COMPILE_ANGLE_CONTROLLER
-  readDoF(dofData);  // Give DoF struct initial data.
+ // setupDoF();
+#endif  // COMPILE_ANGLE_CONTROLLERs
+
+#ifdef COMPILE_ARUCO_CONTROLLER
+  setupRpi();
+#endif  // COMPILE_ARUCO_CONTROLLER
+
+#ifdef COMPILE_TOF
+ // readToF(tofData);  // Give ToF struct initial data.
+#endif               // COMPILE_TOF
+
+#ifdef COMPILE_ANGLE_CONTROLLER
+//  readDoF(dofData);  // Give DoF struct initial data.
 #endif               // COMPILE_ANGLE_CONTROLLER
+
   convertForceToPWM(motorData,
                     motorForceData);  // Give motor driver struct initial data.
 
@@ -77,18 +102,25 @@ void setup(void) {
  */
 void loop(void) {
   // Safety functions
-  checkCellVoltage(adcData);
-  checkCurrent(adcData);
+  // checkCellVoltage(adcData);
+  // checkCurrent(adcData);
 
   // ToF functions
-  readToF(tofData);
+#ifdef COMPILE_TOF
+ // readToF(tofData);
+#endif  // COMPILE_TOF
 
-#ifdef COMPILE_ANGLE_CONTROLLER
   // DoF functions
-  readDoF(dofData);
+#ifdef COMPILE_ANGLE_CONTROLLER
+ // readDoF(dofData);
 #endif  // COMPILE_ANGLE_CONTROLLER
 
-  // Controllers
+  receiveRpiData(rpiData);
+  delay(500);
+
+  /*
+   * ====================== Controllers selection ================
+   */
   tNew = millis();
   if (tNew - tOld > DELTA_t) {  // millis function overlow is unlikely since it
                                 // hapens after approx 50 days.
@@ -117,8 +149,7 @@ void loop(void) {
 
 #ifdef COMPILE_ARUCO_CONTROLLER
       case ARUCO_MARKERS_CONTROLLER:
-        arucoMarkersController(motorData, motorForceData, tofData, dofData,
-                               rpiData);
+        arucoMarkersController(motorData, motorForceData, rpiData);
         break;
 #endif  // COMPILE_ARUCO_CONTROLLER
 
@@ -130,8 +161,6 @@ void loop(void) {
 
   // Motor functions
   convertForceToPWM(motorData, motorForceData);
-  Serial.println(motorForceData.motor1Force);
-  Serial.println(motorData.motorPWMSpeed1);
   setMotorSpeed(motorData);
 
   // sendRpiData(motorData, motorForceData, tofData, dofData, adcData);

@@ -4,5 +4,5 @@
     "programmer": "arduino:avrisp",
     "sketch": "uav-arduino-programma.ino",
     "output": "./.build",
-    "port": "/dev/ttyUSB0"
+    "port": "/dev/ttyACM0"
 }

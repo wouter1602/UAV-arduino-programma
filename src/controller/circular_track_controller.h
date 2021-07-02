@@ -16,6 +16,10 @@
 #ifndef CIRCULAR_TRACK_CONTROLLER_H
 #define CIRCULAR_TRACK_CONTROLLER_H
 
+#ifndef COMPILE_TOF
+#define COMPILE_TOF
+#endif //COMPILE_TOF
+
 #include "../sensors/ToF.h"
 #include "../sensors/motor.h"
 #include "../sensors/nine-dof.h"

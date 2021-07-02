@@ -1,5 +1,6 @@
 /**
  * @file ToF.h
+ * @author Wouter van Velzen (19093861@student.hhs.nl)
  * @author Shivany Anders (19044240@student.hhs.nl)
  * @brief Header file to setup and read the Time of Flight sensors
  * @version 0.1

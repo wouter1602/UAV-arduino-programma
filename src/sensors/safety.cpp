@@ -23,20 +23,20 @@
 
 /*
  * V = S * (50 / 1023) -> S = V / (50/1023)
- * S = 3 / (50 / 1023) -> S = 613.8 -> S = 613 (3V undervoltage)
- * S = 4.2 / (50 / 1023) -> S = 859.32 -> S = 859 (4,2V overvoltage)
+ * S = 3 / (50 / 1023) -> S = 61.38 -> S = 62 (3V undervoltage)
+ * S = 4.2 / (50 / 1023) -> S = 85.932 -> S = 85 (4,2V overvoltage)
  *
  * Over current:
  * 66 mV /A --> V = 7 * 66 * 10 ^-3 = 0.462 V
- * S = 0.462 / ( 50 / 1023) -> S = 94.52 -> S = 95
+ * S = 0.462 / ( 50 / 1023) -> S = 9.452 -> S = 9
  */
-#define OVER_CURRENT 95          // ADC value need for more than 7A
-#define OVER_VOLTAGE_CELL1 859   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL1 613  // ADC value needed for less than 3V
-#define OVER_VOLTAGE_CELL2 859   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL2 613  // ADC value needed for less than 3V
-#define OVER_VOLTAGE_CELL3 859   // ADC value needed for more than 4,2V
-#define UNDER_VOLTAGE_CELL3 613  // ADC value needed for less than 3V
+#define OVER_CURRENT 9          // ADC value need for more than 7A
+#define OVER_VOLTAGE_CELL1 85   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL1 62  // ADC value needed for less than 3V
+#define OVER_VOLTAGE_CELL2 85   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL2 62  // ADC value needed for less than 3V
+#define OVER_VOLTAGE_CELL3 85   // ADC value needed for more than 4,2V
+#define UNDER_VOLTAGE_CELL3 62  // ADC value needed for less than 3V
 
 /**
  * @brief Set the Raspberry Pi + Fans Relay on or off

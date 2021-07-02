@@ -18,6 +18,7 @@
 #include "i2c.h"
 
 #pragma pack(push, 1)
+/*
 struct WireData {
   uint8_t datatype = 'D';
   TimeOfFlightData tof;
@@ -27,11 +28,13 @@ struct WireData {
   DoFData dof;
 };
 #pragma pack(pop)
+*/
 
+ /*
 void writeWiredata(WireData* wireData) {
   uint8_t* bytes = (uint8_t*)wireData;
   Wire.write(bytes, sizeof(WireData));
-}
+}*/
 
 #ifdef USE_RPI_TEST_DATA
 void setRpiTestData(MotorSettings& motorData, MotorForce& motorForce,
@@ -61,17 +64,17 @@ void setRpiTestData(MotorSettings& motorData, MotorForce& motorForce,
  *
  */
 void setupRpi() {
-  Wire.beginTransmission(RPI_ADDRESS);
-  Wire.write("datum");
-  Wire.endTransmission();
-  delay(15);
+  // Wire.beginTransmission(RPI_ADDRESS);
+  // Wire.write("datum");
+  // Wire.endTransmission();
+  // delay(15);
 
-  Wire.requestFrom(RPI_ADDRESS, 11);
-  while (Wire.available()) {
-    char c = Wire.read();
-    Serial.print("[INFO] Received: ");
-    Serial.println(c);
-  }
+  // Wire.requestFrom(RPI_ADDRESS, 11);
+  // while (Wire.available()) {
+  //   char c = Wire.read();
+  //   Serial.print("[INFO] Received: ");
+  //   Serial.println(c);
+  // }
 
 #ifdef DEBUG
   Serial.println("[INFO] Completed Raspberry Pi setup.");
@@ -95,6 +98,7 @@ void sendRpiData(MotorSettings& motorData, MotorForce& motorForce,
                  adcData);
 #endif  // USE_RPI_TEST_DATA
 
+/*
   WireData wireData;
   wireData.tof = TimeOfFlightData;
   wireData.adc = adcData;
@@ -102,7 +106,7 @@ void sendRpiData(MotorSettings& motorData, MotorForce& motorForce,
   wireData.motorForce = motorForce;
   wireData.dof = degreesOfFreedomData;
   writeWiredata(&wireData);
-
+*/
   Wire.endTransmission();
 #ifdef DEBUG
   Serial.println("[INFO] Send sensor data to the Raspberry Pi.");
@@ -130,22 +134,28 @@ void receiveRpiData(RpiData& data) {
 
   Wire.beginTransmission(RPI_ADDRESS);
   Wire.write('D');
-  delay(15);      //Uit orginele code
+  Wire.endTransmission();
+  delay(10);      //Uit originele code
 
-  Wire.requestFrom(RPI_ADDRESS, 1);
+  Wire.requestFrom(RPI_ADDRESS, 1, true);
 
   while (Wire.available()) {
     markersFound = Wire.read();
   }
 
-  Wire.endTransmission();
+  #ifdef DEBUG
+Serial.print("[INFO] Markers found: ");
+Serial.println(markersFound);
+  #endif //DEBUG
 
   if (markersFound == 0 || markersFound > MAX_MARKERS) {
     return;     // Don't ask for markers because there are none
   } else {
     Wire.beginTransmission(RPI_ADDRESS);
     Wire.write('E');
-    delay(15);
+    Wire.endTransmission();
+
+    delay(10);
 
     Wire.requestFrom(RPI_ADDRESS, (markersFound * 5));
 
@@ -160,5 +170,5 @@ void receiveRpiData(RpiData& data) {
       data.markers[i].markerX = rawData[pos+1] << 8 + rawData[pos + 2];
       data.markers[i].markerY = rawData[pos+3] << 8 + rawData[pos + 4];
     }
-  }  
+  } 
 }
